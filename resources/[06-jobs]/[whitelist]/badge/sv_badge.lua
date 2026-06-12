@@ -7,10 +7,15 @@ end)
 -- Open ID card
 RegisterServerEvent('badge:open')
 AddEventHandler('badge:open', function(ID, targetID, type)
-	local identifier = ESX.GetPlayerFromId(ID).identifier
-	local _source 	 = ESX.GetPlayerFromId(targetID).source
+	-- mostra-se SEMPRE o crachá do próprio caller (não de um ID arbitrário) → mata a fuga de PII
+	local xPlayer = ESX.GetPlayerFromId(source)
+	if not xPlayer then return end
+	local identifier = xPlayer.identifier
+
+	local xTarget = ESX.GetPlayerFromId(targetID)
+	if not xTarget then return end
+	local _source 	 = xTarget.source
 	local show       = false
-	local _PED_ID = PED_ID
 
 	MySQL.Async.fetchAll('SELECT firstname, lastname, dateofbirth, sex, height,job FROM users WHERE identifier = @identifier', {['@identifier'] = identifier},
 	function (user)

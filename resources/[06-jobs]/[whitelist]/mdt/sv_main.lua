@@ -365,6 +365,7 @@ end)
 RegisterServerEvent("np-mdt:searchVehicles")
 AddEventHandler("np-mdt:searchVehicles", function(plate)
     local src = source
+    if not isLEO(src) then return end
     local lowerplate = string.lower('%'..plate..'%')
 	local result = MysqlConverter(Config.Mysql, 'fetchAll', 'SELECT * FROM owned_vehicles aa LEFT JOIN vehicle_mdt a ON a.license_plate = aa.plate LEFT JOIN ____mdw_bolos at ON at.license_plate = aa.plate WHERE LOWER(plate) LIKE @plate ORDER BY plate ASC', { ['@plate'] = lowerplate })
     for k, v in pairs(result) do
@@ -827,6 +828,7 @@ end)
 RegisterServerEvent("np-mdt:newBulletin")
 AddEventHandler("np-mdt:newBulletin", function(title, info, time, id)
     local src = source
+    if not isLEO(src) then return end
 	local xPlayer = ESX.GetPlayerFromId(src)
     local name = getInGameName(xPlayer.identifier)
     local Bulletin = {
@@ -853,6 +855,7 @@ end)
 RegisterServerEvent("np-mdt:deleteBulletin")
 AddEventHandler("np-mdt:deleteBulletin", function(id)
     local src = source
+    if not isLEO(src) then return end
 	local xPlayer = ESX.GetPlayerFromId(src)
     local name = getInGameName(xPlayer.identifier)
 	MysqlConverter(Config.Mysql, 'execute', 'DELETE FROM ___mdw_bulletin WHERE id = @id', {
@@ -935,6 +938,7 @@ end)
 RegisterServerEvent("np-mdt:removeIncidentCriminal")
 AddEventHandler("np-mdt:removeIncidentCriminal", function(cid, icId)
     local src = source
+    if not isLEO(src) then return end
     local xPlayer = ESX.GetPlayerFromId(src)
     local name = getInGameName(xPlayer.identifier)
     local time = os.time()
@@ -1008,6 +1012,7 @@ end)
 
 RegisterServerEvent("np-mdt:newTag")
 AddEventHandler("np-mdt:newTag", function(cid, tag)
+    if not isLEO(source) then return end
     local result = MysqlConverter(Config.Mysql, 'fetchAll', 'SELECT * FROM ___mdw_profiles WHERE cid = @identifier', {['@identifier'] = cid})
     local newTags = {}
     if result and result[1] then
@@ -1110,6 +1115,7 @@ RegisterServerEvent("np-mdt:newBolo")
 AddEventHandler("np-mdt:newBolo", function(data)
     if data.title == "" then return end
     local src = source
+    if not isLEO(src) then return end
 	local xPlayer = ESX.GetPlayerFromId(src)
     local char = xPlayer.getIdentifier()
     local name = getInGameName(xPlayer.identifier)
@@ -1153,6 +1159,7 @@ end)
 RegisterServerEvent("np-mdt:deleteBolo")
 AddEventHandler("np-mdt:deleteBolo", function(id)
     local src = source
+    if not isLEO(src) then return end
 	MysqlConverter(Config.Mysql, 'execute', "DELETE FROM ____mdw_bolos WHERE dbid = @id", {
 	    ["@id"] = id
 	})

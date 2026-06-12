@@ -40,7 +40,34 @@ falsos negativos no padrão hex `\x`, NÃO usar):
 
 ## Sync ao host (rsync)
 
-1. Correr `clean-streams.ps1` (remove o backdoor da fonte de streams).
-2. rsync da fonte limpa → host, por bucket. Streams mudam raramente → sync só quando mudam.
+Host: `185.200.246.14` · destino: `<resources>/[10..13]` (a mesma pasta `resources/` onde o
+`server.cfg` faz `ensure`; o `.gitignore` exclui `[10..13]` → streams e código coexistem sem se
+pisarem). Ferramentas: `clean-streams.ps1` (certificador, PowerShell) + `sync-streams.sh` (rsync, WSL/Git Bash).
+
+**Fluxo:**
+
+1. **Certificar** a fonte (read-only — NÃO mexe no backup intocável):
+   ```powershell
+   .\clean-streams.ps1 -StreamsRoot "D:\GTA V Quim\resources\[assets-streams]"
+   ```
+   exit 0 = limpo (só o backdoor conhecido) · exit 2 = NOVOS blobs hex → parar e investigar.
+
+2. **Dry-run** do rsync (editar `SSH_USER`/`SSH_PORT`/`DEST_RES` no topo do script primeiro):
+   ```bash
+   ./sync-streams.sh            # dry-run, mostra o que ia mudar
+   ./sync-streams.sh --apply    # sincroniza a sério
+   ```
+
 3. Pass adicional recomendado: scanner de malware FiveM (txAdmin/FiveGuard) nos packs + nas
    DLLs (carcontrol, fxmigrant) antes de confiar — defesa em profundidade.
+
+**Segurança embutida no sync:**
+- `--exclude='*/BCs_HpNgt36uh/vehicle_names.lua'` → o backdoor **nunca chega ao host** e o
+  **backup não é mutado** (não dependemos de o apagar da fonte). `*.rar` também excluído.
+- `--delete` **só** nos buckets puros de stream (`[10-maps]`, `[11-vehicles]`, `[12-clothing]`).
+  O `[13-peds-interiors]` é **misto** (tem também `peds`/`NPCS`/`mythic_interiors` vindos do
+  git) → sync **aditivo, sem `--delete`**, senão apagaria os recursos do git-deploy.
+- Streams mudam raramente → sincronizar só quando mudam.
+
+> ⚠️ Confirmar `SSH_USER`/porta no painel do host (se for pterodactyl, costuma ser user
+> `username.serverid` e porta `2022`) e o caminho real da pasta `resources/` no host.

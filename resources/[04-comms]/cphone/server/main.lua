@@ -755,7 +755,10 @@ RPC.register('mobileMoneyTransfer', function(iban, rAmount)
         end
 
         xPlayer.removeAccountMoney('bank', tonumber(amount))
-        MySQL.Async.execute("UPDATE `users` SET `bank` = `bank` + '"..tonumber(amount).."' WHERE `identifier` = '"..zUser.identifier.."'")
+        MySQL.Async.execute("UPDATE `users` SET `bank` = `bank` + @amount WHERE `identifier` = @identifier", {
+            ['@amount'] = tonumber(amount),
+            ['@identifier'] = zUser.identifier
+        })
    
         return true
     end

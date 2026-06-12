@@ -170,7 +170,8 @@ RegisterServerEvent('loaf_paintball:join')
 AddEventHandler('loaf_paintball:join', function(playerTeam)
     local src = source
     local xPlayer = ESX.GetPlayerFromId(src)
-    
+    if not xPlayer then return end
+
     if xPlayer.getMoney() >= Config.Price then
         if not default.matchInProgress then
             local init = false
@@ -191,48 +192,59 @@ AddEventHandler('loaf_paintball:join', function(playerTeam)
     end
 end)
 
+-- devolve a entrada do jogador em jogo (ou nil se não estiver na partida)
+local function getMatchEntry(id)
+    for i = 1, #default.currentPlayers do
+        local p = default.currentPlayers[i]
+        if p and p.id == id then return p end
+    end
+    return nil
+end
+
+local DEATH_COOLDOWN = Config.DeathCooldown or 2 -- segundos mín. entre mortes do mesmo jogador
+
 RegisterServerEvent('loaf_paintball:kill')
 AddEventHandler('loaf_paintball:kill', function(killerId)
+    -- só a própria vítima (source) reporta a sua morte; o killer é validado contra o estado server-side
     local victim = source
-    local killer = killerId
+    local killer = tonumber(killerId)
 
-    if not victim or not killer then return end
+    if not default.matchInProgress then return end
+    if not killer then return end
+    if killer == victim then return end -- sem auto-kill (matava o farm de MVP/prizePool)
 
-    if default.matchInProgress then
-        local killerTeam = nil
-        local victimName = GetPlayerName(victim) or "Alguém"
-        local killerName = GetPlayerName(killer) or "Alguém"
+    -- ambos têm de estar realmente na partida
+    local victimEntry = getMatchEntry(victim)
+    local killerEntry = getMatchEntry(killer)
+    if not victimEntry or not killerEntry then return end
 
+    -- sem team-kill a contar pontos
+    if killerEntry.team == victimEntry.team then return end
 
-        for i = 1, #default.currentPlayers do
-            local player = default.currentPlayers[i]
+    -- cooldown de respawn: impede spam de mortes do mesmo cliente p/ farmar kills alheios
+    local now = os.time()
+    if (now - (victimEntry.lastDeath or 0)) < DEATH_COOLDOWN then return end
+    victimEntry.lastDeath = now
 
+    local victimName = GetPlayerName(victim) or "Alguém"
+    local killerName = GetPlayerName(killer) or "Alguém"
 
-            if player.id == killer then
-                player.kills = player.kills + 1
-                killerTeam = player.team
-                TriggerClientEvent('loaf_paintball:hudNotify', player.id, (Config.Translations['you_killed'] or "Mataste") .. ': ~r~' .. victimName)
-                TriggerClientEvent("loaf_paintball:mataste", player.id, player.kills)
-                TriggerClientEvent('esx_basicneeds:healPlayer', player.id)
-            
+    killerEntry.kills = killerEntry.kills + 1
+    TriggerClientEvent('loaf_paintball:hudNotify', killerEntry.id, (Config.Translations['you_killed'] or "Mataste") .. ': ~r~' .. victimName)
+    TriggerClientEvent("loaf_paintball:mataste", killerEntry.id, killerEntry.kills)
+    TriggerClientEvent('esx_basicneeds:healPlayer', killerEntry.id)
 
-            elseif player.id == victim then
-                player.deaths = player.deaths + 1
-                TriggerClientEvent('loaf_paintball:hudNotify', player.id, (Config.Translations['you_got_killed'] or "Foste morto por") .. ': ~r~' .. killerName)
-                TriggerClientEvent('loaf_paintball:died', player.id, killer)
-            end
-        end
+    victimEntry.deaths = victimEntry.deaths + 1
+    TriggerClientEvent('loaf_paintball:hudNotify', victimEntry.id, (Config.Translations['you_got_killed'] or "Foste morto por") .. ': ~r~' .. killerName)
+    TriggerClientEvent('loaf_paintball:died', victimEntry.id, killer)
 
-
-        if killerTeam == 'blue' then
-            default.score_blue = (default.score_blue or 0) + 1
-        elseif killerTeam == 'red' then
-            default.score_red = (default.score_red or 0) + 1
-        end
-
-
-        TriggerClientEvent('loaf_paintball:scoregeral', -1, default.score_red, default.score_blue)
+    if killerEntry.team == 'blue' then
+        default.score_blue = (default.score_blue or 0) + 1
+    elseif killerEntry.team == 'red' then
+        default.score_red = (default.score_red or 0) + 1
     end
+
+    TriggerClientEvent('loaf_paintball:scoregeral', -1, default.score_red, default.score_blue)
 end)
 getMax = function(data)
     local max_val, key = -math.huge

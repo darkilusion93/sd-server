@@ -162,11 +162,11 @@ end)
 RegisterNUICallback("assinado", function(data)
 	assinatura = true
 	if coima > 0 then
-		TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(PlayerId()), 'society_state', 'Contraordenação Rodoviária', coima)
-		TriggerServerEvent('autocontra:assinado', remetente)
+		-- cobrança feita no servidor (autocontra:assinado), não no cliente
+		TriggerServerEvent('autocontra:assinado')
 		coima = 0
 	end
-		
+
 end)
 
 RegisterNUICallback("close", function(data)
