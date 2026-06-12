@@ -1,0 +1,24 @@
+-- Vehicle Classes
+
+VEH_CLASS_COMPACT = 0   --Compact
+VEH_CLASS_SEDAN = 1   --Sedan
+VEH_CLASS_SUV = 2   --SUV
+VEH_CLASS_COUPES = 3   --Coupes
+VEH_CLASS_MUSCLE = 4   --Muscle
+VEH_CLASS_SPORTS_CLASSICS = 5   --Sports Classics
+VEH_CLASS_SPORTS = 6   --Sports
+VEH_CLASS_SUPER = 7   --Super
+VEH_CLASS_MOTORCYCLES = 8   --Motorcycles
+VEH_CLASS_OFF_ROAD = 9   --Off-road
+VEH_CLASS_INDUSTRIAL = 10  --Industrial
+VEH_CLASS_UTILITY = 11  --Utility
+VEH_CLASS_VANS = 12  --Vans
+VEH_CLASS_CYCLES = 13  --Cycles
+VEH_CLASS_BOATS = 14  --Boats
+VEH_CLASS_HELICOPTERS = 15  --Helicopters
+VEH_CLASS_PLANES = 16  --Planes
+VEH_CLASS_SERVICE = 17  --Service
+VEH_CLASS_EMERGENCY = 18  --Emergency
+VEH_CLASS_MILITARY = 19  --Military
+VEH_CLASS_COMMERCIAL = 20  --Commercial
+VEH_CLASS_TRAINS = 21  --Trains

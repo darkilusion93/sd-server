@@ -1,0 +1,100 @@
+Locales = Locales or {}
+
+Locales['en'] = {
+    -- Sistema
+    ['exploit_attempted_log_message']       = 'Tentativa de exploit por: %s',
+    ['exploit_attempted_kick_message']      = 'Foste expulso por tentativa de exploit.',
+
+    -- Rota
+    ['start_route_help']                    = 'Pressiona ~INPUT_PICKUP~ para iniciar a ~g~%s~s~ (caução de €5000).',
+    ['route_finished_help']                 = 'Rota concluída! Pressiona ~INPUT_PICKUP~ para receber o pagamento e terminar.',
+    ['stop_the_bus']                        = 'Para o autocarro para que os passageiros possam embarcar/desembarcar.',
+    ['end_of_line']                         = 'Terminal Final',
+    ['abort_route_help']                    = 'Pressiona ~INPUT_PICKUP~ para cancelar a rota. Perderás ~r~$%d~s~.',
+    ['not_enough_money_bail']               = '~r~Não tens dinheiro suficiente para a caução de €5000.',
+
+    -- Notificações durante a rota
+    ['route_assigned']                      = 'Foi-te atribuída a ~g~%s~s~.',
+    ['drive_to_first_marker']               = 'Entra no autocarro e conduz até à primeira paragem: ~g~%s~s~.',
+    ['drive_to_next_marker']                = 'Continua até à próxima paragem: ~g~%s~s~.',
+    ['passengers_loaded']                   = '~g~%d~s~ passageiros pagaram bilhete. Recebeste ~g~$%d~s~.',
+    ['return_to_terminal']                  = 'Rota terminada. Volta ao terminal.',
+    ['get_back_in_bus']                     = 'Volta ao autocarro para continuar a rota.',
+    ['wait_for_passengers']                 = 'Aguarda a entrada e saída de todos os passageiros.',
+    ['no_passengers_loading_or_unloading']  = 'Aguarda a entrada e saída dos passageiros.',
+    ['no_passengers_unloading']             = 'Aguarda a entrada de todos os passageiros.',
+    ['no_passengers_loading']               = 'Aguarda a saída de todos os passageiros. Não haverá embarque nesta paragem.',
+    ['start_route']                         = 'Pressiona ~INPUT_PICKUP~ para iniciar a ~g~%s~s~.',
+
+    -- Overlay HUD
+    ['next_stop_label']                     = 'Próxima Paragem',
+    ['money_earned_label']                  = 'Dinheiro Ganho',
+    ['stops_remaining_label']               = 'Paragens Restantes',
+
+    -- Nomes das rotas
+    ['abort_route']                         = 'Cancelar ~g~%s~s~',
+    ['airport_route']                       = 'Rota do Aeroporto',
+    ['scenic_route']                        = 'Rota Panorâmica',
+    ['metro_route']                         = 'Serviço Urbano',
+    ['metro_yellow']                        = 'Linha Amarela',
+    ['metro_blue']                          = 'Linha Azul',
+    ['metro_red']                           = 'Linha Vermelha',
+    ['metro_purple']                        = 'Linha Rosa',
+    ['metro_orange']                        = 'Linha Laranja',
+    ['metro_black']                         = 'Linha Preta',
+    ['terminal']                            = 'Terminal',
+
+    -- Paragens — Rota Aeroporto
+    ['stop_banner_hotel']                   = 'Banner Hotel & Spa',
+    ['stop_von_crastenburg']                = 'Von Crastenburg',
+    ['stop_airport']                        = 'Aeroporto Internacional',
+    ['stop_elgin']                          = 'Elgin House',
+    ['stop_venetian']                       = 'Hotel Venetian',
+    ['stop_viceroy']                        = 'The Viceroy',
+    ['stop_crastenburg']                    = 'Crastenburg',
+    ['stop_opium_nights']                   = 'Opium Nights Hotel',
+
+    -- Paragens — Rota Panorâmica
+    ['stop_dashound']                       = 'Terminal Rodoviário',
+    ['stop_banham_canyon']                  = 'Banham Canyon',
+    ['stop_lago_zancudo']                   = 'Lago Zancudo',
+    ['stop_north_chumash']                  = 'North Chumash',
+    ['stop_chiliad']                        = 'Parque Estadual Monte Chiliad',
+    ['stop_paleto_bay']                     = 'Paleto Bay',
+    ['stop_grapeseed']                      = 'Grapeseed',
+    ['stop_sandy_shores']                   = 'Sandy Shores',
+    ['stop_senora_park']                    = 'Parque Nacional de Senora',
+    ['stop_harmony']                        = 'Harmony',
+
+    -- Paragens — Metro Urbano
+    ['stop_metro_station_departures']       = 'Terminal — Partidas',
+    ['stop_metro_station_arrivals']         = 'Terminal — Chegadas',
+    ['stop_metro_vespucci_sinner']          = 'Vespucci Blvd / Sinner St',
+    ['stop_metro_popular']                  = 'Rua Popular',
+    ['stop_metro_hawick_meteor']            = 'Hawick Ave / Meteor St',
+    ['stop_metro_hawick_alta']              = 'Hawick Ave / Alta Pl',
+    ['stop_metro_strawberry_ave']           = 'Avenida Strawberry',
+    ['stop_metro_peaceful_san_andreas']     = 'Peaceful St / San Andreas Ave',
+    ['stop_metro_vespucci_alta']            = 'Vespucci Blvd / Alta St',
+    ['stop_metro_peaceful_vespucci']        = 'Peaceful St / Vespucci Blvd',
+    ['stop_metro_business_center']          = 'Centro Empresarial Arcadius',
+    ['stop_metro_rockford_plaza']           = 'Rockford Plaza',
+    ['stop_metro_carcer_way']               = 'Carcer Way',
+    ['stop_metro_rockford_eastbourne']      = 'Rockford Dr / Eastbourne Way',
+    ['stop_metro_delperro_madwayne']        = 'Del Perro Blvd / Mad Wayne Thunder Dr',
+    ['stop_metro_dorset_palomino']          = 'Dorset Dr / Palomino Ave',
+    ['stop_metro_sanandreas_calais']        = 'San Andreas Ave / Calais Ave',
+    ['stop_metro_vespucci_ginger']          = 'Vespucci Blvd / Ginger St',
+    ['stop_metro_ginger']                   = 'Ginger St',
+    ['stop_metro_sanandreas_ginger']        = 'San Andreas Ave / Ginger St',
+    ['stop_metro_alta_gruppe']              = 'Alta St — Gruppe Sechs',
+    ['stop_metro_fib']                      = 'San Andreas Ave — FIB',
+    ['stop_metro_delperro_rockford']        = 'Del Perro Blvd / Rockford Dr',
+    ['stop_metro_delperro_morningwood']     = 'Del Perro Blvd / Morningwood Blvd',
+    ['stop_metro_delperro_plaza']           = 'Del Perro Plaza',
+    ['stop_metro_marathon_baycity']         = 'Marathon Ave / Bay City Ave',
+    ['stop_metro_vespucci_elgin']           = 'Vespucci Blvd / Elgin Ave',
+    ['stop_metro_marathon_prosperity']      = 'Marathon Ave / Prosperity St',
+    ['stop_metro_eclipse_cougar']           = 'W Eclipse Blvd / Cougar Ave',
+    ['stop_metro_marathon']                 = 'Marathon Ave',
+}

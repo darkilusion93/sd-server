@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+
+.tinder-app {
+    display: none;
+    height: 100%;
+    width: 100%;
+    background: rgb(255, 0, 55);
+    overflow: hidden;
+}
+
+.tinder-app-header {
+    position: absolute;
+    width: 100%;
+    height: 6vh;
+    top: 4.5vh;
+    left: 1vh;
+    font-size: 3.5vh;
+    color: white;
+    font-family: 'Samsung Sans Bold';
+}
+
+.tinder-app-create-post {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    left: -30vh;
+    background-color: rgb(255, 0, 55);
+}
+
+#tinder-create-post {
+    margin-left: 7vh;
+}
+
+#tinder-create-post:hover {
+    color: rgb(202, 202, 202);
+}
+
+#tinder-cancel-post {
+    margin-left: 10vh;
+}
+
+#tinder-cancel-post:hover {
+    color: rgb(202, 202, 202);
+}
+
+.tinder-app-box {
+    position: absolute;
+    width: 90%;
+    height: 40vh;
+    top: 10.5vh;
+    background-color: rgb(255, 0, 55);
+    margin-left: 1.4vh;
+    overflow: hidden;
+}
+
+.tinder-profile-face {
+    position: absolute;
+    width: 100%;
+    height: 32vh;
+    border-top-left-radius: 1vh;
+    border-top-right-radius: 1vh;
+    margin: 0 auto;
+    left: 0vh;
+    right: 0;
+    top: 0;
+    z-index: 101;
+}
+
+.tinder-picture-profile {
+    position: absolute;
+    height: 33.2vh;
+    width: 100%;
+    font-size: 2vh;
+    border-radius: 1vh;
+    color: rgb(255, 255, 255);
+    font-family: 'Samsung Sans Bold';
+    overflow: hidden;
+}
+
+.tinder-picture-profile img {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+#tinder-text-profile {
+    position: absolute;
+    top: 33.3vh;
+    left: 0.5vh;
+    font-size: 2vh;
+    color: rgb(255, 255, 255);
+    font-family: 'Samsung Sans Bold';
+}
+
+#tinder-message-profile {
+    position: absolute;
+    top: 35.8vh;
+    left: 0.6vh;
+    font-size: 1.2vh;
+    color: rgb(255, 255, 255);
+    font-family: 'Samsung Sans Bold';
+}
+
+.tinder-logo {
+    position: absolute;
+    width: 10vh;
+    margin: 0 auto;
+    left: 0vh;
+    right: 0;
+    top: 22vh;
+    z-index: 101;
+}
+
+#tinder-text {
+    position: absolute;
+    top: 24vh;
+    left: 9vh;
+    font-size: 4.5vh;
+    color: white;
+    font-family: 'Samsung Sans Bold';
+    z-index: 100;
+    opacity: 0;
+}
+
+.new-tinder-textarea {
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 17vh;
+    height: 30vh;
+    width: 80%;
+    outline: none;
+    border: none;
+    resize: none;
+    /* border-radius: 1.5vh 1.5vh 1.5vh 1.5vh; */
+    box-shadow: 0px 0 1px .5px rgba(0, 0, 0, 0);
+    padding: 1.5vh;
+    font-family: 'Helvetica';
+    border-bottom: 0.5vh solid rgb(255, 0, 55);
+    transition: .1s linear;
+}
+
+.new-tinder-textarea:focus {
+    border-bottom: 0.5vh solid rgb(255, 0, 55);
+}
+
+.new-tinder-textarea:valid {
+    border-bottom: 0.5vh solid #29b417;
+}
+
+.tinder-create-picture-icon  {
+    position: absolute;
+    top: 12.8vh;
+    left: 3.4vh;
+    font-size: 2.1vh;
+    color: rgb(255, 255, 255)
+}
+
+#tinder-picture-input-id {
+    position: absolute;
+    top: 12vh;
+    left: 8vh;
+    background: white;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #f5f6fa;
+    font-family: 'Helvetica';
+    /* background: rgb(33,36,43); */
+    /* background: linear-gradient(0deg, rgba(33,36,43,0.5) 0%, rgba(178,132,254,0) 100%); */
+    height: 3.5vh;
+    width: 18vh;
+    text-indent: .4vh;
+    transition: .1s;
+    font-size: 1.3vh;
+    color: rgb(29, 29, 29);
+}
+#tinder-picture-input-id::-webkit-inner-spin-button {
+    display: none;
+}
+#tinder-picture-input-id:focus {
+    border-bottom: 2px solid rgb(255, 0, 55);
+}
+#tinder-picture-input-id:valid {
+    border-bottom: 2px solid #6ab04c;
+}
+
+.tinder-create-post-accept {
+    position: absolute;
+    float: left;
+    width: 100%;
+    height: 5vh;
+    bottom: 0.5vh;
+    text-align: center;
+    line-height: 5vh;
+    font-size: 2.2vh;
+    transition: .1s linear;
+    color: rgb(212, 212, 212);
+}
+
+.tinder-create-post-accept:hover {
+    color: rgb(175, 175, 175);
+    transition: .1s linear;
+}
+
+.tinder-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 5vh;
+}
+
+.tinder-footer-item {
+    position: relative;
+    float: left;
+    width: 50%;
+    height: 100%;
+    text-align: center;
+    line-height: 5vh;
+    font-size: 2.2vh;
+    transition: .1s linear;
+    color: rgb(255, 255, 255);
+}
+
+.tinder-footer-item:hover {
+    color: rgb(184, 184, 184);
+    transition: .1s linear;
+}

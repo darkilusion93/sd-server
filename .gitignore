@@ -1,0 +1,37 @@
+# ── Runtime / cache ────────────────────────────────
+core
+*.dmp
+/cache/
+/db/
+/txData/
+/alpine/
+/.mono/
+*.log
+/logs/
+.replxx_history
+hypnonema.db
+
+# ── Segredos — NUNCA versionar ─────────────────────
+server_secrets.cfg
+.env
+*.key
+
+# ── Streams (28 GB) — geridos por rsync, fora do git ─
+resources/[10-maps]/
+resources/[11-vehicles]/
+resources/[12-clothing]/
+resources/[13-peds-interiors]/
+*.ytd
+*.yft
+*.ydr
+*.ydd
+*.ytyp
+*.ymap
+*.ybn
+*.ycd
+*.gfx
+
+# ── Dev tooling que não pertence a produção ─────────
+**/node_modules/
+[02-core]/webpack/
+[02-core]/yarn/

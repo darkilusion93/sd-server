@@ -1,0 +1,30 @@
+Config.Stations["pj"] = {
+    MaxMembers = -1,
+    JobName = "&#128373; Polícia Judiciária",
+    JobGrades = {
+        ["0"] = {grade = 0, name = "aspirante", label = "Aspirante", salary = 1800, skin_male = {}, skin_female = {}},
+        ["1"] = {grade = 1, name = "inspector", label = "Inspetor", salary = 2400, skin_male = {}, skin_female = {}},
+        ["2"] = {grade = 2, name = "chefe", label = "Inspetor Chefe", salary = 3000, skin_male = {}, skin_female = {}},
+        ["3"] = {grade = 3, name = "coordenador", label = "Coordenador", salary = 3600, skin_male = {}, skin_female = {}},
+        ["4"] = {grade = 4, name = "boss", label = "Diretor", salary = 4800, skin_male = {}, skin_female = {}},
+    },
+    MobileAction = {
+        {value = 'billing', nome = 'Multa'},
+        {value = 'handcuff'},
+        {value = 'search'},
+    },
+    CanBossCreateRaces = false,
+    BuyMenu = {},
+    AuthorizedCrafts = {},
+    Duty = {},
+    Cloakrooms = {},
+    Armories = {},
+    Special = {},
+    Vehicles = {},
+    Helicopters = {},
+    Boats = {},
+    VehicleDeleters = {},
+    CanBossAddCars = false,
+    BossActions = {},
+    Doors = {}
+}

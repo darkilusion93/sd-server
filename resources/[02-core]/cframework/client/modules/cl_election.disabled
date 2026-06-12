@@ -1,0 +1,38 @@
+
+
+local candidates = {
+    {label = "P.R.A.", value = "pra"},
+    {label = "U.A.", value = "ua"}
+}
+
+local electionCoords, insideElectionMarker = vector4(-555.61, -602.69, 34.68, 178.69), false
+
+Citizen.CreateThread(function()
+    exports.ft_libs:AddTrigger("elections", {x = electionCoords.x, y = electionCoords.y, z = electionCoords.z, weight = 2, height = 2,
+    enter = {eventClient = "electionsEnteredMarker"}, exit = {eventClient = "electionsExitedMarker"}, data = {}, active = {}})
+
+    exports.ft_libs:AddPed("elections", {model = `ig_fbisuit_01`, x = electionCoords.x, y = electionCoords.y, z = electionCoords.z, w = electionCoords.w})
+end)
+
+AddEventHandler("electionsEnteredMarker", function()
+    insideElectionMarker = true
+
+    while insideElectionMarker do
+        Citizen.Wait(0)
+
+        ESX.ShowHelpNotification("Pressiona ~INPUT_CONTEXT~ para abrir o menu de voto.")
+
+        if IsControlJustPressed(0, 38) then
+            TriggerEvent('chud:menu', candidates, 'Voto', function(value)
+                TriggerEvent('esx_inventoryhud:doClose')
+
+                TriggerServerEvent("cframework:voteForCandidate", value)
+            end)
+            return
+        end
+    end
+end)
+
+AddEventHandler("electionsExitedMarker", function()
+    insideElectionMarker = false
+end)

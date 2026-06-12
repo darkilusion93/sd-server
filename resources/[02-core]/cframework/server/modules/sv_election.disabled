@@ -1,0 +1,30 @@
+
+
+local peopleWhoVoted = json.decode(GetResourceKvpString("election2024") or "{}")
+local candidates = {
+    ["pra"] = true,
+    ["ua"] = true,
+}
+
+RegisterNetEvent("cframework:voteForCandidate", function(vote)
+    local source <const> = source
+    local identifier <const> = ESX.getIdentifier(source)
+
+    if peopleWhoVoted[identifier] then
+        TriggerClientEvent("esx:showNotification", source, 'Já votaste!', 'error')
+        return
+    end
+
+    if not candidates[vote] then
+        TriggerClientEvent("esx:showNotification", source, 'Candidato inválido!', 'error')
+        return
+    end
+
+    peopleWhoVoted[identifier] = true
+
+    MySQL.Async.execute("INSERT INTO `elections` (`name`) VALUES (@name) ON DUPLICATE KEY UPDATE count = count + 1",{["@name"]=vote})
+
+    TriggerClientEvent("esx:showNotification", source, 'Voto registado!', 'success')
+
+    SetResourceKvp("election2024", json.encode(peopleWhoVoted))
+end)

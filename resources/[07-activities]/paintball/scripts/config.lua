@@ -1,0 +1,145 @@
+Config = {
+    Weapon = 'WEAPON_GADGETPISTOL',
+    RemoveWeapon = true, -- if someone has the Weapon but isn't playing paintball, remove it. 
+    RequiredPlayers = 2,
+    JoinCircle = vector3(-1094.1777, -1265.5294, 4.8505),
+	BCircle = vector3(-1095.8242, -1266.7216, 4.8505),
+	RCircle = vector3(-1092.7196, -1264.9641, 4.8505),
+    QueueTime = 0.15, -- how long until the match starts (minutes)
+    MatchLength = 5.0, -- length of the match (minutes)
+    DisplayWinner = 10, -- how long to show who won (seconds)
+    ForceFirstPerson = true, -- force first person?
+    SpawnPoints = {
+	
+		blue = {
+			vector3(5035.24, -4660.08, 3.88),
+			vector3(5115.00, -4682.00, 2.28),
+			vector3(5099.64, -4731.00, 4.61),
+			vector3(5056.00, -4720.00, 7.8),
+			vector3(5059.85, -4677.94, 2.76),
+			vector3(5075.99, -4641.92, 2.49),
+			vector3(5034.11, -4603.76, 3.2),
+			vector3(5061.92, -4596.24, 2.85),
+			vector3(5060.81, -4620.42, 2.79),
+			vector3(5087.38, -4666.37, 2.51),
+		},
+		red = {
+			vector3(5043.89, -4538.38, 6.11),
+			vector3(5085.89, -4570.35, 4.43),
+			vector3(5121.69, -4556.01, 2.96),
+			vector3(5126.67, -4584.27, 4.65),
+			vector3(5150.55, -4618.34, 2.58),
+			vector3(5173.07, -4591.15, 3.75),
+			vector3(5206.52, -4609.59, 6.04),
+			vector3(5184.56, -4659.49, 2.53),
+			vector3(5155.27, -4679.95, 2.32),
+			vector3(5179.6, -4688.86, 2.26),
+		},     
+    },
+	
+    WinnerPosition = {
+		[1] = vector3(5030.7, -4630.46, 20.68),
+		[2] = vector3(5030.47, -4629.71, 20.68),
+		[3] = vector3(5030.43, -4631.03, 20.68),
+		[4] = vector3(5030.62, -4628.77, 20.68),
+		[5] = vector3(5030.36, -4631.79, 20.68),
+		[6] = vector3(5030.03, -4632.47, 20.68),
+		[7] = vector3(5030.88, -4630.41, 20.68),
+		[8] = vector3(5032.99, -4630.66, 20.68),		
+		[9] = vector3(5032.44, -4633.05, 20.68),
+		[10] = vector3(5030.88, -4630.41, 20.68),
+
+	},
+	
+    WinnerHeading = 90.00,
+    WinnerCam = vector3(5020.4, -4628.25, 25.25),
+    Price = 250,
+    Clothes = {
+        ChangeClothes = true, -- get paintball clothes when playing?
+        Outfits = {
+			['blue']  ={
+				male = {
+					['tshirt_1'] = 15,  ['tshirt_2'] = 0,
+					['torso_1'] = 148,   ['torso_2'] = 10,
+					['arms'] = 17,
+					['pants_1'] = 67,   ['pants_2'] = 10,
+					['shoes_1'] = 47,   ['shoes_2'] = 10,
+					['bproof_1'] = 0,  ['bproof_2'] = 0,
+					['chain_1'] = 0,    ['chain_2'] = 0,
+					['helmet_1'] = -1,  ['helmet_2'] = 0,
+					['mask_1'] = 89,   ['mask_2'] = 0,
+					['bags_1'] = 0,   ['bags_2'] = 0,
+					['glasses_1'] = 0, ['glasses_2'] = 0,
+					['decals_1'] = 0,  ['decals_2'] = 0,
+				},
+				female = {
+					['tshirt_1'] = 14,  ['tshirt_2'] = 0,
+					['torso_1'] = 145,   ['torso_2'] = 10,
+					['arms'] = 18,
+					['pants_1'] = 69,   ['pants_2'] = 10,
+					['shoes_1'] = 72,   ['shoes_2'] = 24,
+					['bproof_1'] = 0,  ['bproof_2'] = 0,
+					['chain_1'] = 0,    ['chain_2'] = 0,
+					['helmet_1'] = -1,  ['helmet_2'] = 0,
+					['mask_1'] = 89,   ['mask_2'] = 0,
+					['bags_1'] = 0,   ['bags_2'] = 0,
+					['glasses_1'] = 0, ['glasses_2'] = 0,
+					['decals_1'] = 0,  ['decals_2'] = 0,
+				}
+			},
+			['red']  ={
+				male = {
+					['tshirt_1'] = 15,  ['tshirt_2'] = 0,
+					['torso_1'] = 148,   ['torso_2'] = 1,
+					['arms'] = 17,
+					['pants_1'] = 67,   ['pants_2'] = 1,
+					['shoes_1'] = 47,   ['shoes_2'] = 1,
+					['bproof_1'] = 0,  ['bproof_2'] = 0,
+					['chain_1'] = 0,    ['chain_2'] = 0,
+					['helmet_1'] = -1,  ['helmet_2'] = 0,
+					['mask_1'] = 89,   ['mask_2'] = 0,
+					['bags_1'] = 0,   ['bags_2'] = 0,
+					['glasses_1'] = 0, ['glasses_2'] = 0,
+					['decals_1'] = 0,  ['decals_2'] = 0,
+				},
+				female = {
+					['tshirt_1'] = 14,  ['tshirt_2'] = 0,
+					['torso_1'] = 145,   ['torso_2'] = 1,
+					['arms'] = 18,
+					['pants_1'] = 69,   ['pants_2'] = 1,
+					['shoes_1'] = 72,   ['shoes_2'] = 8,
+					['bproof_1'] = 0,  ['bproof_2'] = 0,
+					['chain_1'] = 0,    ['chain_2'] = 0,
+					['helmet_1'] = -1,  ['helmet_2'] = 0,
+					['mask_1'] = 89,   ['mask_2'] = 0,
+					['bags_1'] = 0,   ['bags_2'] = 0,
+					['glasses_1'] = 0, ['glasses_2'] = 0,
+					['decals_1'] = 0,  ['decals_2'] = 0,
+				}
+			},
+		},
+    },
+    Translations = {
+        ['join_paintball'] = ' Seleciona uma equipa para te juntares ao Paintball ',
+        ['leave_paintball'] = '[~g~E~w~] Sair da Fila de Espera\n%s',  
+        ['left_paintball'] = 'Tu ~r~saíste ~w~da fila de espera do Paintball visto que te afastaste da área.',
+        ['match_in_progress'] = '~r~%s\n~b~%s~w~ segundos restantes',
+        ['gun_removed'] = 'Foi te removida a arma de Paintball, visto não estares em jogo.',
+        ['match_ends'] = 'Partida termina em: ~p~%s~w~s\nScore Geral: ~r~%s ~w~/ ~b~%s\n~w~Kills: ~g~%s ~w~\nMortes: ~o~%s',
+        ['seconds_starts'] = ' Partida começa em ',
+        ['match_progress'] = 'Partida em progresso',
+        ['in_queue'] = ' player\n',
+        ['you_killed'] = 'Mataste o',
+        ['you_got_killed'] = 'Foste morto pelo',
+        ['killed_by'] = ' foi morto pelo ',
+        ['no_money'] = 'Não tens dinheiro suficiente',
+        ['won'] = '%s ~w~ganharam com: ~b~%s~w~ vs ~r~%s ~w~pontos\nTeu score: ~g~%s~w~/~o~%s',
+		['tie'] = '~g~Houve um empate: ~b~%s~w~ vs ~r~%s ~w~pontos\nTeu score: ~g~%s~w~/~o~%s',
+        ['you_won'] = '\n~g~A tua equipa ganhou com ~w~won with: %s kills & %s mortes',
+		['blue'] = 'Os ~b~Azuis~w~',
+		['red'] = 'Os ~r~Vermelhos~w~',
+		['blue1'] = 'Equipa ~b~Azul~w~',
+		['red1'] = 'Equipa ~r~Vermelha~w~',
+        
+    },
+}

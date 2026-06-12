@@ -1,0 +1,34 @@
+local PlayerData = {}
+
+RegisterNetEvent('esx:playerLoaded', function(xPlayer)
+    PlayerData = xPlayer
+end)
+
+RegisterNetEvent('esx:setJob', function(job)
+    PlayerData.job = job
+end)
+
+Citizen.CreateThread(function()
+    exports.ft_libs:RemoveButton("openTaximeter")
+    exports.ft_libs:AddButton("openTaximeter", {
+        key = 56,
+        use = {
+          callback = taximeterOpen,
+        },
+    })
+end)
+
+function taximeterOpen()
+    if PlayerData.job == nil or (PlayerData.job.name ~= 'taxi' and PlayerData.job.name ~= 'kiwi') then 
+        return 
+    end
+
+    SetNuiFocus(true, true)
+    SendNUIMessage({action = "showTaxi"})
+end
+
+RegisterNUICallback("closeTaximeter", function(data, cb)
+    SetNuiFocus(false, false)
+
+    cb("ok")
+end)

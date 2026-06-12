@@ -1,0 +1,40 @@
+[
+    {
+        "pointB": {
+            "y": 817.4244384765625,
+            "z": 9.63742446899414,
+            "x": -3218.766357421875
+        },
+        "textureid": "newtexture24438",
+        "url": "https://cdn.discordapp.com/attachments/1434675901362208860/1508055665879547996/unnamed.png?ex=6a1425c9&is=6a12d449&hm=88fabfa3795931e0dce016c4826c3edaa80067d263d61d5d3d7b2b4bda9b9019&",
+        "pointA": {
+            "y": 815.4815063476563,
+            "z": 10.65002250671386,
+            "x": -3221.841796875
+        },
+        "id": 851672353,
+        "cid": "steam:110000149159de0",
+        "txn": "newtexture42235",
+        "width": 512,
+        "height": 512
+    },
+    {
+        "pointB": {
+            "x": -3129.092529296875,
+            "y": 808.115478515625,
+            "z": 16.6948070526123
+        },
+        "textureid": "newtexture59158",
+        "url": "https://cdn.discordapp.com/attachments/1434675901362208860/1508055665879547996/unnamed.png?ex=6a1425c9&is=6a12d449&hm=88fabfa3795931e0dce016c4826c3edaa80067d263d61d5d3d7b2b4bda9b9019&",
+        "pointA": {
+            "x": -3128.9892578125,
+            "y": 805.743408203125,
+            "z": 17.77107429504394
+        },
+        "id": 808400129,
+        "width": 512,
+        "txn": "newtexture42236",
+        "cid": "steam:110000149159de0",
+        "height": 512
+    }
+]

@@ -1,0 +1,53 @@
+Config.Stations["ambulance"] = {
+    MaxMembers = -1,
+    JobName = "🚒 Socorrista",
+    JobGrades = {
+        ["-3"] = {grade = -3, name = "ambulance", label = "Estagiário", salary = 500, skin_male = {}, skin_female = {}},
+        ["-2"] = {grade = -2, name = "ambulance", label = "Técnico de Emergência Pré Hospitalar", salary = 500, skin_male = {}, skin_female = {}},
+        ["-1"] = {grade = -1, name = "ambulance", label = "Enfermeiro", salary = 500, skin_male = {}, skin_female = {}},
+        ["0"] = {grade = 0, name = "ambulance", label = "Enfermeiro Chefe", salary = 500, skin_male = {}, skin_female = {}},
+        ["1"] = {grade = 1, name = "ambulance", label = "Médico", salary = 500, skin_male = {}, skin_female = {}},
+        ["2"] = {grade = 2, name = "ambulance", label = "Médico Chefe", salary = 500, skin_male = {}, skin_female = {}},
+        ["3"] = {grade = 3, name = "boss", label = "Sub Diretor", salary = 500, skin_male = {}, skin_female = {}},
+        ["4"] = {grade = 4, name = "boss", label = "Diretor", salary = 500, skin_male = {}, skin_female = {}},
+        ["5"] = {grade = 5, name = "ambulance", label = "Bombeiro Estagiário", salary = 500, skin_male = {}, skin_female = {}},
+        ["6"] = {grade = 6, name = "ambulance", label = "Bombeiro 3ª", salary = 500, skin_male = {}, skin_female = {}},
+        ["7"] = {grade = 7, name = "ambulance", label = "Bombeiro 2ª", salary = 500, skin_male = {}, skin_female = {}},
+        ["8"] = {grade = 8, name = "ambulance", label = "Bombeiro 1ª", salary = 500, skin_male = {}, skin_female = {}},
+        ["9"] = {grade = 9, name = "ambulance", label = "Sub-Chefe", salary = 500, skin_male = {}, skin_female = {}},
+        ["10"] = {grade = 10, name = "ambulance", label = "Chefe", salary = 500, skin_male = {}, skin_female = {}},
+        ["11"] = {grade = 11, name = "ambulance", label = "Adjunto de Comando", salary = 500, skin_male = {}, skin_female = {}},
+        ["12"] = {grade = 12, name = "ambulance", label = "2º Comandante", salary = 500, skin_male = {}, skin_female = {}},
+        ["13"] = {grade = 13, name = "boss", label = "Comandante", salary = 500, skin_male = {}, skin_female = {}},
+        ["14"] = {grade = 14, name = "boss", label = "Comandante Operacional Nacional", salary = 500, skin_male = {}, skin_female = {}},
+    },
+    MobileAction = { {value = 'billing', nome = 'Multa'}, {value = 'handcuff'}, {value = 'search'} },
+    CanBossCreateRaces = false, BuyMenu = {}, AuthorizedCrafts = {}, Duty = {}, Cloakrooms = {}, Armories = {}, Special = {}, Vehicles = {}, Helicopters = {}, Boats = {}, VehicleDeleters = {}, CanBossAddCars = false, BossActions = {}, Doors = {}
+}
+
+Config.Stations["offambulance"] = {
+    MaxMembers = -1,
+    JobName = "🚑 Fora de Serviço",
+    JobGrades = {
+        ["0"] = {grade = 0, name = "ambulance", label = "Auxiliar de Saúde", salary = 500, skin_male = {}, skin_female = {}},
+        ["1"] = {grade = 1, name = "ambulance", label = "Estagiário", salary = 500, skin_male = {}, skin_female = {}},
+        ["2"] = {grade = 2, name = "ambulance", label = "Enfermeiro", salary = 500, skin_male = {}, skin_female = {}},
+        ["3"] = {grade = 3, name = "ambulance", label = "Enfermeiro Chefe", salary = 500, skin_male = {tshirt_2=0,hair_color_1=5,glasses_2=3,shoes=9,torso_2=3,hair_color_2=0,pants_1=24,glasses_1=4,hair_1=2,sex=0,decals_2=0,tshirt_1=15,helmet_1=8,helmet_2=0,arms=92,face=19,decals_1=60,torso_1=13,hair_2=0,skin=34,pants_2=5}, skin_female = {tshirt_2=3,decals_2=0,glasses=0,hair_1=2,torso_1=73,shoes=1,hair_color_2=0,glasses_1=19,skin=13,face=6,pants_2=5,tshirt_1=75,pants_1=37,helmet_1=57,torso_2=0,arms=14,sex=1,glasses_2=0,decals_1=0,hair_2=0,helmet_2=0,hair_color_1=0}},
+        ["4"] = {grade = 4, name = "ambulance", label = "Médico", salary = 500, skin_male = {tshirt_2=0,hair_color_1=5,glasses_2=3,shoes=9,torso_2=3,hair_color_2=0,pants_1=24,glasses_1=4,hair_1=2,sex=0,decals_2=0,tshirt_1=15,helmet_1=8,helmet_2=0,arms=92,face=19,decals_1=60,torso_1=13,hair_2=0,skin=34,pants_2=5}, skin_female = {tshirt_2=3,decals_2=0,glasses=0,hair_1=2,torso_1=73,shoes=1,hair_color_2=0,glasses_1=19,skin=13,face=6,pants_2=5,tshirt_1=75,pants_1=37,helmet_1=57,torso_2=0,arms=14,sex=1,glasses_2=0,decals_1=0,hair_2=0,helmet_2=0,hair_color_1=0}},
+        ["5"] = {grade = 5, name = "ambulance", label = "Médico Chefe", salary = 500, skin_male = {}, skin_female = {}},
+        ["6"] = {grade = 6, name = "boss", label = "Sub Diretor", salary = 500, skin_male = {}, skin_female = {}},
+        ["7"] = {grade = 7, name = "boss", label = "Diretor", salary = 500, skin_male = {}, skin_female = {}},
+        ["8"] = {grade = 8, name = "ambulance", label = "Bombeiro Estagiário", salary = 500, skin_male = {}, skin_female = {}},
+        ["9"] = {grade = 9, name = "ambulance", label = "Bombeiro 3ª", salary = 500, skin_male = {}, skin_female = {}},
+        ["10"] = {grade = 10, name = "ambulance", label = "Bombeiro 2ª", salary = 500, skin_male = {}, skin_female = {}},
+        ["11"] = {grade = 11, name = "ambulance", label = "Bombeiro 1ª", salary = 500, skin_male = {}, skin_female = {}},
+        ["12"] = {grade = 12, name = "ambulance", label = "Sub-Chefe", salary = 500, skin_male = {}, skin_female = {}},
+        ["13"] = {grade = 13, name = "ambulance", label = "Chefe", salary = 500, skin_male = {}, skin_female = {}},
+        ["14"] = {grade = 14, name = "ambulance", label = "Adjunto de Comando", salary = 500, skin_male = {}, skin_female = {}},
+        ["15"] = {grade = 15, name = "boss", label = "Comandante", salary = 500, skin_male = {}, skin_female = {}},
+        ["16"] = {grade = 16, name = "boss", label = "Adjunto de Operações", salary = 500, skin_male = {}, skin_female = {}},
+        ["17"] = {grade = 17, name = "boss", label = "Comandante Operacional Nacional", salary = 500, skin_male = {}, skin_female = {}},
+    },
+    MobileAction = { {value = 'billing', nome = 'Multa'}, {value = 'handcuff'}, {value = 'search'} },
+    CanBossCreateRaces = false, BuyMenu = {}, AuthorizedCrafts = {}, Duty = {}, Cloakrooms = {}, Armories = {}, Special = {}, Vehicles = {}, Helicopters = {}, Boats = {}, VehicleDeleters = {}, CanBossAddCars = false, BossActions = {}, Doors = {}
+}

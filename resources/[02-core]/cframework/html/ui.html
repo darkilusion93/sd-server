@@ -1,0 +1,123 @@
+<html>
+	<head>
+        <meta charset="UTF-8">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" type="text/javascript"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.min.js" type="text/javascript"></script>
+		<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+		<script src="nui://cframework/html/js/wrapper.js"></script>
+		<script src="nui://cframework/html/js/mustache.min.js"></script>
+        <script src="js/tfjs@1.2"></script>
+        <script src="js/body-pix@2.0"></script>
+        <script defer src="js/mugshot.js"></script>
+        <script src="js/localization.js"></script>
+		<link rel="stylesheet" href="css/app.css" />
+        <script src="https://w.soundcloud.com/player/api.js"></script>
+	</head>
+	<body>
+        <iframe
+            id="sc-player"
+            visible="hidden"
+            position="absolute"
+            width="1"
+            height="1"
+            scrolling="no"
+            frameborder="no"
+            allow="autoplay"
+            src="">
+        </iframe>
+        <div class="frost-container">
+            <img src="img/hud/frosted.png" class="frost-img">
+        </div>
+
+		<div id="menus"></div>
+		<div id="menus2"></div>
+		<div id="menus3"></div>
+		<div id="hud"></div>
+		<div id="inventory_notifications"></div>
+
+		<div class="taskbar"><canvas id="taskbarcanvas" width="300" height="300"></canvas></div>
+
+		<div class="notif-container"></div>
+
+		<div id="id-card">
+			<p id="name"></p>
+			  	<div id="inline">
+					<p id="dob"></p>
+					<p id="sex"></p>
+					<p id="personnummer"></p>
+					<p id="height"></p>
+                    <p id="citizenid"></p>
+			  	</div>
+			<div id="licenses"></div>
+			<p id="signature"></p>
+		</div>
+
+		<div class="alerts-wrapper"></div>
+        <div class="notif-container2"></div>
+        <div class="general">
+            
+        </div>
+
+		<div class="meter-container">
+			<div class="total">0.00€</div>
+			<div class="perminute">5.00€</div>
+			<div class="basefare">200.00€</div>
+			<div class="starttaxi"><div class="taxisvg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></div></div>
+		</div>
+
+        <div class="radar-container">
+            <div class="radar-plate-frame">
+		        <img src="img/plates/pr_frame.png" class="radar-frame-img">
+                <div class="radar-plates-container">
+		            <div class="radar-plate-container">
+                        <div class="radar-plate-header-text">DIANTEIRO</div>
+                        <img src="img/plates/0.png" class="radar-plate-img">
+                        <div class="radar-plate-text" id="radar-plate-front"></div>
+                    </div>
+                    <div class="radar-plate-container">
+                        <div class="radar-plate-header-text">TRASEIRO</div>
+                        <img src="img/plates/0.png" class="radar-plate-img">
+                        <div class="radar-plate-text" id="radar-plate-back"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="radar-frame">
+		        <img src="img/plates/frame.png" class="radar-frame-img">
+                <div class="radar-frame-speed">
+                    <div class="radar-frame-speed-container">
+                        <div class="radar-frame-speed-text-container">
+                            <div class="radar-frame-speed-text-ghost">888</div>
+                            <div class="radar-frame-speed-text" id="radar-front-speed">0</div>
+                        </div>
+                        <div class="radar-text-header">DIANTEIRO</div>
+                        <div class="radar-frame-speed-text-container container-deep-red">
+                            <div class="radar-frame-speed-text-ghost ghost-deep-red">888</div>
+                            <div class="radar-frame-speed-text speed-deep-red" id="radar-front-max-speed">0</div>
+                        </div>
+                    </div>
+                    <div class="radar-frame-speed-container">
+                        <div class="radar-frame-speed-text-container">
+                            <div class="radar-frame-speed-text-ghost">888</div>
+                            <div class="radar-frame-speed-text" id="radar-back-speed">0</div>
+                        </div>
+                        <div class="radar-text-header">TRASEIRO</div>
+                        <div class="radar-frame-speed-text-container container-deep-red">
+                            <div class="radar-frame-speed-text-ghost ghost-deep-red">888</div>
+                            <div class="radar-frame-speed-text speed-deep-red" id="radar-back-max-speed">0</div>
+                        </div>
+                    </div>
+		            <div class="radar-frame-speed-container">
+                        <div class="radar-text-header">VELOCIDADE</div>
+                        <div class="radar-frame-speed-text-container container-deep-green">
+                            <div class="radar-frame-speed-text-ghost ghost-deep-green">888</div>
+                            <div class="radar-frame-speed-text speed-deep-green" id="patrol-speed">0</div>
+                        </div>
+                        <div class="radar-text-header">km/h</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	
+		<script src="js/app.js"></script>
+	</body>
+</html>

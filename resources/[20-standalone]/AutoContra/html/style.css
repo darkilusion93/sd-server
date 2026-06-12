@@ -1,0 +1,485 @@
+@font-face {
+    font-family: justsignature;
+    src: url('./fonts/JustSignature.woff');
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+}
+
+#incidente {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 18px;  
+    margin-left: 465px;
+    margin-top: 105px;
+    color: #282828;
+}
+
+#nome1 {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 18px;  
+    margin-left: 187px;
+    margin-top: 178px;
+    color: #282828;
+}
+
+#nascimento {
+    position: absolute;
+    font-family: "Comic Mono";
+	letter-spacing: 6.5px;
+    font-weight: bolder;
+    font-size: 15px;  
+    margin-left: 196px;
+    margin-top: 205px;
+    color: #282828;
+}
+
+#nif1 {
+    position: absolute;
+    font-family: "Comic Mono";
+	letter-spacing: 6.5px;
+    font-weight: bolder;
+    font-size: 15px;  
+    margin-left: 160px;
+    margin-top: 226px;
+    color: #282828;
+}
+
+
+#nif2 {
+    position: absolute;
+    font-family: "Comic Mono";
+	letter-spacing: 6.5px;
+    font-weight: bolder;
+    font-size: 15px;  
+    margin-left: 424px;
+    margin-top: 226px;
+    color: #282828;
+}
+
+#matricula {
+    position: absolute;
+    font-family: "Comic Mono";
+	letter-spacing: 6.5px;
+    font-weight: bolder;
+    font-size: 15px;  
+    margin-left: 181px;
+    margin-top: 303px;
+    color: #282828;
+}
+
+#pais {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 18px;  
+    margin-left: 319px;
+    margin-top: 298px;
+    color: #282828;
+}
+
+#nif3 {
+    position: absolute;
+    font-family: "Comic Mono";
+	letter-spacing: 6.5px;
+    font-weight: bolder;
+    font-size: 15px;  
+    margin-left: 420px;
+    margin-top: 324px;
+    color: #282828;
+}
+
+#nome2 {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 18px;  
+    margin-left: 155px;
+    margin-top: 340px;
+    color: #282828;
+}
+
+#data1 {
+    position: absolute;
+    font-family: "Comic Mono";
+	letter-spacing: 6.5px;
+    font-weight: bolder;
+    font-size: 15px;  
+    margin-left: 128px;
+    margin-top: 423px;
+    color: #282828;
+}
+#local {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 18px;  
+    margin-left: 310px;
+    margin-top: 415px;
+    color: #282828;
+}
+
+#descricao {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 15px;  
+    margin-left: 120px;
+    margin-top: 455px;
+    color: #282828;
+	max-width: 425px;
+	max-height: 109px;
+	line-height: 140%;
+	overflow: hidden;
+}
+
+#crimes {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 15px;  
+    margin-left: 120px;
+    margin-top: 584px;
+    color: #282828;
+	max-width: 425px;
+	max-height: 66px;
+	overflow: hidden;
+	line-height: 140%;
+}
+
+#coima {
+    position: absolute;
+    font-family: "Comic Mono";
+	letter-spacing: 6.5px;
+    font-weight: bolder;
+    font-size: 15px;  
+    margin-left: 197px;
+    margin-top: 650px;
+    color: #282828;
+	text-align: right;
+	width: 100px;
+
+	
+}
+
+#pontos {
+    position: absolute;
+    font-family: "Comic Mono";
+	letter-spacing: 6.5px;
+    font-weight: bolder;
+    font-size: 15px;  
+    margin-left: 507px;
+    margin-top: 650px;
+    color: #282828;
+	text-align: right;
+	width: 40px;
+
+	
+}
+
+#data2 {
+    position: absolute;
+    font-family: "Comic Mono";
+	letter-spacing: 6.5px;
+    font-weight: bolder;
+    font-size: 15px;  
+    margin-left: 343px;
+    margin-top: 719px;
+    color: #282828;
+}
+
+#agente {
+  position: absolute;
+  font-family: justsignature;
+  margin-left: 107px;
+  margin-top: 715px;
+  color: #282828;
+  font-size: 14px;
+  width: 320px;
+  text-transform:capitalize; 
+}
+
+#assinatura {
+  position: absolute;
+  font-family: justsignature;
+  margin-left: 355px;
+  margin-top: 770px;
+  color: #282828;
+  font-size: 14px;
+  width: 320px;
+  text-transform:capitalize; 
+}
+
+
+#lasergun {
+    display: none;
+    height: 877px;
+    width: 620px;
+    margin-left: 5%;
+    margin-top: 5%;
+    background: url("ImagemAuto.png");
+    transform-origin: top left;
+}
+
+#notificacao {
+    display: none;
+    height: 877px;
+    width: 620px;
+    margin-left: 5%;
+    margin-top: 5%;
+    background: url("Declaracao.png");
+    transform-origin: top left;
+}
+
+#incidenteNOTF {
+    position: absolute;
+    font-family: "Comic Mono";
+    letter-spacing: 7.5px;
+    font-weight: bolder;
+    font-size: 13px; 
+    margin-left: 438px;
+    margin-top: 151px;
+    color: #282828;
+	text-align-last: right;
+	width: 133px;
+}
+
+#dataNOTF {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 16px;  
+    margin-left: 164px;
+    margin-top: 257px;
+    color: #282828;
+	width: 140px;
+}
+
+#localNOTF {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 16px;  
+    margin-left: 350px;
+    margin-top: 257px;
+    color: #282828;
+	width: 225px;
+}
+
+#nome1NOTF {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 16px;  
+    margin-left: 73px;
+    margin-top: 291px;
+    color: #282828;
+	width: 510px;
+}
+
+#residenciaNOTF {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 16px;  
+    margin-left: 103px;
+    margin-top: 312px;
+    color: #282828;
+	width: 500px;
+}
+
+#nifNOTF {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 16px;  
+    margin-left: 68px;
+    margin-top: 334px;
+    color: #282828;
+	width: 250px;
+}
+
+
+#contactoNOTF {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 16px;  
+    margin-left: 385px;
+    margin-top: 334px;
+    color: #282828;
+	width: 250px;
+}
+
+#condutorNOTF {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 16px;  
+    margin-left: 119px;
+    margin-top: 360px;
+    color: #282828;
+	width: 180px;
+}
+
+#matriculaNOTF {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 16px;  
+    margin-left: 425px;
+    margin-top: 360px;
+    color: #282828;
+	width: 105px;
+}
+
+#declaracaoNOTF {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 16px;  
+    margin-left: 43Px;
+    margin-top: 395px;
+    color: #282828;
+	width: 530px;
+	overflow:hidden;
+}
+
+#portugaliaNOTF {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 16px;  
+    margin-left: 43px;
+    margin-top: 702px;
+    color: #282828;
+	width: 320px;
+}
+#diaNOTF {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 16px;  
+    margin-left: 370px;
+    margin-top: 702px;
+    color: #282828;
+}
+
+#mesNOTF {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 16px;  
+    margin-left: 410px;
+    margin-top: 702px;
+    color: #282828;
+}
+
+#anoNOTF {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 16px;  
+    margin-left: 508px;
+    margin-top: 702px;
+    color: #282828;
+}
+
+#assinaturaNOTF {
+  position: absolute;
+  font-family: justsignature;
+  margin-left: 83px;
+  margin-top: 773px;
+  color: #282828;
+  font-size: 14px;
+  width: 215px;
+  text-transform:capitalize; 
+}
+
+#assinatura2NOTF {
+  position: absolute;
+  font-family: justsignature;
+  margin-left: 350px;
+  margin-top: 773px;
+  color: #282828;
+  font-size: 14px;
+  width: 215px;
+  text-transform:capitalize; 
+}
+
+#nome2NOTF {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 16px;  
+    margin-left: 109px;
+    margin-top: 801px;
+    color: #282828;
+}
+
+#agenteNOTF {
+    position: absolute;
+    font-family: "Indie Flower";
+    font-weight: bolder;
+    font-size: 16px;  
+    margin-left: 378px;
+    margin-top: 801px;
+    color: #282828;
+}
+
+.buttons {
+    border: dotted;
+	border-width: 2px;
+    border-radius: 10px;
+	border-color: rgba(255, 0, 0, 50);
+    background-color: rgba(255, 255, 255, 0);
+    width: 185px;
+    height: 45px;
+	color: rgba(255, 0, 0, 255); 
+	transition-duration: 0.4s;
+}
+
+.buttons:hover {
+  background-color: rgba(200, 200, 200, 50); /* Green */
+}
+
+textarea { 
+  border-style: none; 
+  border-color: Transparent; 
+  overflow: auto;  
+  border: none;
+  resize: none;
+  outline: none;	
+}
+
+input[type="text"], input[type="text"]:focus 
+{
+    background: rgba(0, 0, 0, 0);
+    border: none;
+    outline: none;
+	
+}
+
+#assinar {
+  margin-left: 350px;
+  margin-top: 755px;
+  text-align: center;
+  font-size: 15px;  
+  font-family: "Verdana;
+}
+
+#assinar2 {
+  margin-left: 82px;
+  margin-top: 768px;
+  text-align: center;
+  font-size: 15px;  
+  font-family: "Verdana;
+}

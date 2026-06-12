@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+  lua-lint:
+    name: Lua lint (luacheck)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install luacheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lua5.4 luarocks
+          sudo luarocks install luacheck
+      - name: Run luacheck
+        run: luacheck resources/ --no-color || true
+        # `|| true`: lint é informativo enquanto há recursos de terceiros por limpar.
+        # Tornar bloqueante (tirar o `|| true`) quando o código próprio estiver limpo.
+
+  secrets:
+    name: Secret scan (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  manifest:
+    name: fxmanifest sanity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validar fxmanifest + caçar backdoors
+        run: |
+          fail=0
+          # 1) todo o fxmanifest tem fx_version
+          while IFS= read -r f; do
+            grep -q "fx_version" "$f" || { echo "::error file=$f::sem fx_version"; fail=1; }
+          done < <(find resources -iname fxmanifest.lua)
+          # 2) imports de DB partidos
+          if grep -rl "@mysql-async" resources --include=*.lua; then
+            echo "::error::import @mysql-async encontrado (usar @oxmysql)"; fail=1
+          fi
+          # 3) assinatura de backdoor (blobs hex / loaders) em .lua
+          if grep -rlP '(\\x[0-9a-fA-F]{2}){4,}' resources --include=*.lua; then
+            echo "::error::blob hex suspeito (possível backdoor) num .lua"; fail=1
+          fi
+          if grep -rlnE 'assert[[:space:]]*\([[:space:]]*load|cfx-x|stage[0-9]\.php' resources --include=*.lua; then
+            echo "::error::padrão de loader remoto encontrado"; fail=1
+          fi
+          exit $fail

@@ -1,0 +1,91 @@
+
+
+local tollboths <const> = {
+    tollboth_1 = vector3(-3000.02, 1452.45, 27.34),
+    tollboth_2 = vector3(-2635.87, 1563.68, 121.11),
+    tollboth_3 = vector3(-1471.77, 1549.78, 112.42),
+    tollboth_4 = vector3(-801.43, 1384.65, 248.81),
+    tollboth_5 = vector3(173.63, 1471.30, 239.87),
+    tollboth_6 = vector3(1225.87, 1271.89, 143.84),
+    tollboth_7 = vector3(1299.80, 1257.90, 108.71),
+    tollboth_8 = vector3(1728.08, 1450.07, 85.43),
+    tollboth_9 = vector3(2034.07, 1483.43, 75.68),
+    tollboth_10 = vector3(2544.85, 1779.71, 24.44),
+    tollboth_11 = vector3(1606.30, 1268.64, 89.04),
+}
+
+local createdMarkers, CurrentAction, PlayerData = {}, nil, {}
+
+-- Enter / Exit marker events
+local function createTollboothMarkers()
+    if PlayerData.job == nil or PlayerData.job.name ~= 'police' or PlayerData.job.grade < 4 then
+        return
+    end
+
+    for k, v in pairs(tollboths) do
+        exports.ft_libs:AddMarker("tollbooth_toggle" .. k, {type = 50, x = v.x, y = v.y, z = v.z, red = 46, green = 96, blue = 222, showDistance = 25})
+        exports.ft_libs:AddTrigger("tollbooth_toggle" .. k, {x = v.x, y = v.y, z = v.z, weight = 1, height = 2,
+        enter = {eventClient = "tollboothEnteredMarker"}, exit = {eventClient = "tollboothExitedMarker"}, data = k, active = {}})
+        table.insert(createdMarkers, "tollbooth_toggle" .. k)
+    end
+end
+
+local function removeTollboothMarkers()
+    for i=1, #createdMarkers, 1 do
+        exports.ft_libs:RemoveTrigger(createdMarkers[i])
+        exports.ft_libs:RemoveMarker(createdMarkers[i])
+    end
+    createdMarkers = {}
+end
+
+local function tollboothMenu(tollboothId)
+    local elements = {
+        {label = '🚧 Alternar barreiras', value = 'toggle'},
+    }
+
+    ESX.UI.Menu.CloseAll()
+
+    TriggerEvent('chud:menu', elements, 'Portagem', function(value)
+        if value == 'toggle' then
+            TriggerServerEvent("cframework:toggleTollbooth", tollboothId)
+        end
+    end)
+end
+
+RegisterNetEvent('esx:playerLoaded', function(xPlayer)
+    PlayerData = xPlayer
+    removeTollboothMarkers()
+    createTollboothMarkers()
+end)
+
+RegisterNetEvent('esx:setJob', function(job)
+    PlayerData.job = job
+    removeTollboothMarkers()
+    createTollboothMarkers()
+end)
+
+RegisterNetEvent('tollboothEnteredMarker', function(action)
+    CurrentAction = action
+
+    Citizen.CreateThread(function()
+        while CurrentAction ~= nil do
+
+            ESX.ShowHelpNotification("Pressiona ~INPUT_CONTEXT~ para interagir.")
+            Citizen.Wait(0)
+
+            if not IsControlPressed(0, 38) then
+                goto final
+            end
+
+            tollboothMenu(CurrentAction)
+            CurrentAction = nil
+
+            ::final::
+        end
+    end)
+end)
+
+RegisterNetEvent('tollboothExitedMarker', function()
+    ESX.UI.Menu.CloseAll()
+    CurrentAction = nil
+end)

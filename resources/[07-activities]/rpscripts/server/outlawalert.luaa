@@ -1,0 +1,58 @@
+ESX = nil
+
+TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+
+RegisterServerEvent('esx_outlawalert:carJackInProgress', function(targetCoords, streetName, vehicleLabel, playerGender)
+    local mytype = 'police'
+    local data = {["code"] = '10-16', ["name"] = 'Assalto a veiculo: '..vehicleLabel..'.', ["loc"] = streetName}
+    local length = 3500
+
+	for k,v in ipairs(Config.WhitelistedCops) do
+        for player, _ in pairs(ESX.getJobSourceList(v)) do
+            TriggerClientEvent('esx_outlawalert:outlawNotify', player, mytype, data, length)
+            TriggerClientEvent('esx_outlawalert:combatInProgress', player, targetCoords)
+            TriggerClientEvent('esx_outlawalert:carJackInProgress', player, targetCoords)
+        end
+	end
+end)
+
+RegisterServerEvent('esx_outlawalert:combatInProgress', function(targetCoords, streetName, playerGender)
+	local mytype = 'police'
+    local data = {["code"] = '10-10', ["name"] = 'Luta avistada', ["loc"] = streetName}
+    local length = 3500
+
+    for k,v in ipairs(Config.WhitelistedCops) do
+        for player, _ in pairs(ESX.getJobSourceList(v)) do
+            TriggerClientEvent('esx_outlawalert:outlawNotify', player, mytype, data, length)
+            TriggerClientEvent('esx_outlawalert:combatInProgress', player, targetCoords)
+        end
+	end
+end)
+
+RegisterServerEvent('esx_outlawalert:gunshotInProgress', function(targetCoords, streetName, playerGender)
+	local mytype = 'police'
+    local data = {["code"] = '10-13', ["name"] = 'TIROTEIO', ["loc"] = streetName}
+    local length = 3500
+
+    for k,v in ipairs(Config.WhitelistedCops) do
+        for player, _ in pairs(ESX.getJobSourceList(v)) do
+            TriggerClientEvent('esx_outlawalert:outlawNotify', player, mytype, data, length)
+            TriggerClientEvent('esx_outlawalert:gunshotInProgress', player, targetCoords)
+        end
+	end
+end)
+
+ESX.RegisterServerCallback('esx_outlawalert:isVehicleOwner', function(source, cb, plate)
+	local identifier = GetPlayerIdentifier(source, 0)
+
+	MySQL.Async.fetchAll('SELECT owner FROM owned_vehicles WHERE owner = @owner AND plate = @plate', {
+		['@owner'] = identifier,
+		['@plate'] = plate
+	}, function(result)
+		if result[1] then
+			cb(result[1].owner == identifier)
+		else
+			cb(false)
+		end
+	end)
+end)

@@ -1,0 +1,9 @@
+--TriggerServerEvent('cframework:syncDartGames')
+--RegisterNetEvent('cframework:syncDartGames', function(games)
+--RegisterNetEvent('cframework:createDartGame', function(id, game)
+--RegisterNetEvent('cframework:addDartScore', function(id, score, soundName, finished)
+--RPC.execute("cframework:canPlayDart", ClosestGameId)
+--TriggerServerEvent('cframework:stoppedPlayDart', ClosestGameId)
+--RPC.execute("cframework:createDartGame", GetEntityCoords(ClosestTarget))
+--TriggerServerEvent('cframework:addDartPoints', ClosestGameId, relativeHitCoords)
+--{"vec3(1991.785889, 3050.902832, 47.989731)":{"playersScores":[{"value":301},{"value":301}],"finished":false,"coords":{"x":1991.785888671875,"y":3050.90283203125,"z":47.98973083496094}}}

@@ -1,0 +1,859 @@
+
+
+--[[
+RegisterCommand('migrateinventory', function(source, args, rawCommand)
+    if source ~= 0 then return end
+
+	local result = MySQL.Sync.fetchAll('SELECT * FROM users')
+
+    if result == nil then return end
+
+	for i=1, #result, 1 do
+        local identifier = result[i].identifier
+        local inventory  = json.decode(result[i].inventory) or {}
+        local loadout    = json.decode(result[i].loadout) or {}
+        local money      = result[i].money
+        local blackMoney = 0
+
+        local black_account = MySQL.Sync.fetchAll('SELECT * FROM user_accounts WHERE name = "black_money" AND identifier = @identifier', {
+            ['@identifier'] = identifier
+        })[1]
+
+        if black_account ~= nil then
+            blackMoney = black_account.money
+        end
+
+        local newInventory = {}
+        local currentSlot = 1
+
+        local isAlreadyUpdated = false
+        for name, amount in pairs(inventory) do
+            if type(amount) == 'table' then
+                isAlreadyUpdated = true
+                break
+            end
+        end
+
+        if isAlreadyUpdated then
+            goto jump
+        end
+
+        if money > 0 then
+            table.insert(newInventory, {
+                name   = 'cash',
+                count = money,
+                metadata = {},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+
+        if blackMoney > 0 then
+            table.insert(newInventory, {
+                name   = 'black_money',
+                count = blackMoney,
+                metadata = {},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+
+        for name, amount in pairs(inventory) do
+            table.insert(newInventory, {
+                name   = name,
+                count = amount,
+                metadata = {},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+
+        for k, weapon in ipairs(loadout) do
+            if weapon.components == nil then
+                weapon.components = {}
+            end
+
+            if weapon.ammo == nil then
+                weapon.ammo = 0
+            end
+
+            local components = weapon.components
+
+            table.insert(newInventory, {
+                name   = weapon.name,
+                count = 1,
+                metadata = {ammo = weapon.ammo, components = components},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+
+        MySQL.Async.execute('UPDATE users SET inventory = @inventory WHERE identifier = @identifier', {
+            ['@inventory'] = json.encode(newInventory),
+            ['@identifier'] = identifier
+        })
+
+        ::jump::
+	end
+
+    print('Inventory migration completed')
+end, false)
+
+RegisterCommand('migratetrunk', function(source, args, rawCommand)
+    if source ~= 0 then return end
+
+	local result = MySQL.Sync.fetchAll('SELECT * FROM trunk_inventory')
+
+    if result == nil then return end
+
+	for i=1, #result, 1 do
+        local identifier = result[i].plate
+        local data  = json.decode(result[i].data) -- CHANGE TO data!!!!!
+
+        if data == nil then
+            data = {}
+        end
+
+        local inventory  = data.coffre or {}
+        local loadout    = data.weapons or {}
+        local blackMoney = 0
+
+        if data.black_money ~= nil then
+            blackMoney = data.black_money[1].amount
+        end
+
+        local newInventory = {}
+        local currentSlot = 1
+
+        if blackMoney > 0 then
+            table.insert(newInventory, {
+                name   = 'black_money',
+                count = blackMoney,
+                metadata = {},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+
+        for key, item in pairs(inventory) do
+            table.insert(newInventory, {
+                name   = item.name,
+                count = item.count,
+                metadata = {},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+
+        for k, weapon in ipairs(loadout) do
+            if weapon.components == nil then
+                weapon.components = {}
+            end
+
+            if weapon.ammo == nil then
+                weapon.ammo = 0
+            end
+
+            local components = weapon.components
+
+            table.insert(newInventory, {
+                name   = weapon.name,
+                count = 1,
+                metadata = {ammo = weapon.ammo, components = components},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+
+        MySQL.Async.execute('UPDATE trunk_inventory SET inventory = @inventory WHERE plate = @identifier', {
+            ['@inventory'] = json.encode(newInventory),
+            ['@identifier'] = identifier
+        })
+	end
+
+    print('Trunk Inventory migration completed')
+end, false)
+
+RegisterCommand('migratemotel', function(source, args, rawCommand)
+    if source ~= 0 then return end
+
+    local result = MySQL.Sync.fetchAll('SELECT * FROM users')
+
+    if result == nil then return end
+
+	for i=1, #result, 1 do
+        local identifier = result[i].identifier
+
+        local items = MySQL.Sync.fetchAll('SELECT * FROM addon_inventory_items WHERE inventory_name = "property" AND owner = @identifier', {
+            ['@identifier'] = identifier
+        })
+
+        local black_money = MySQL.Sync.fetchAll('SELECT * FROM addon_account_data WHERE account_name = "property_black_money" AND owner = @identifier', {
+            ['@identifier'] = identifier
+        })[1]
+
+        local datastore = MySQL.Sync.fetchAll('SELECT * FROM datastore_data WHERE name = "property" AND owner = @identifier', {
+            ['@identifier'] = identifier
+        })[1]
+
+        if datastore == nil then
+            datastore = {data = "[]"}
+        end
+
+        local inventory  = items or {}
+        local loadout    = json.decode(datastore.data or "[]").weapons or {}
+        local blackMoney = 0
+
+        if black_money ~= nil then
+            blackMoney = black_money.money
+        end
+
+        local newInventory = {}
+        local currentSlot = 1
+
+        if blackMoney > 0 then
+            table.insert(newInventory, {
+                name   = 'black_money',
+                count = blackMoney,
+                metadata = {},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+
+        for key, item in pairs(inventory) do
+            if item.count > 0 then
+                table.insert(newInventory, {
+                    name   = item.name,
+                    count = item.count,
+                    metadata = {},
+                    slot   = currentSlot
+                })
+
+                currentSlot += 1
+            end
+        end
+
+        for k, weapon in ipairs(loadout) do
+            if weapon.components == nil then
+                weapon.components = {}
+            end
+
+            if weapon.ammo == nil then
+                weapon.ammo = 0
+            end
+
+            local components = weapon.components
+
+            table.insert(newInventory, {
+                name   = weapon.name,
+                count = 1,
+                metadata = {ammo = weapon.ammo, components = components},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+
+        MySQL.Async.execute('INSERT INTO inventories (identifier, inventory) VALUES (@identifier, @inventory)', {
+            ['@inventory'] = json.encode(newInventory),
+            ['@identifier'] = "property_"..identifier
+        })
+	end
+
+    print('Motel Inventory migration completed')
+end, false)
+
+RegisterCommand('migratepolicevault', function(source, args, rawCommand)
+    if source ~= 0 then return end
+
+    local result = MySQL.Sync.fetchAll('SELECT * FROM users')
+
+    if result == nil then return end
+
+	for i=1, #result, 1 do
+        local identifier = result[i].identifier
+
+        local items = MySQL.Sync.fetchAll('SELECT * FROM addon_inventory_items WHERE inventory_name = "police_vault" AND owner = @identifier', {
+            ['@identifier'] = identifier
+        })
+
+        local black_money = MySQL.Sync.fetchAll('SELECT * FROM addon_account_data WHERE account_name = "police_vault_black_money" AND owner = @identifier', {
+            ['@identifier'] = identifier
+        })[1]
+
+        local datastore = MySQL.Sync.fetchAll('SELECT * FROM datastore_data WHERE name = "police_vault" AND owner = @identifier', {
+            ['@identifier'] = identifier
+        })[1]
+
+        if datastore == nil then
+            datastore = {data = "[]"}
+        end
+
+        local inventory  = items or {}
+        local loadout    = json.decode(datastore.data or "[]").weapons or {}
+        local blackMoney = 0
+
+        if black_money ~= nil then
+            blackMoney = black_money.money
+        end
+
+        local newInventory = {}
+        local currentSlot = 1
+
+        if blackMoney > 0 then
+            table.insert(newInventory, {
+                name   = 'black_money',
+                count = blackMoney,
+                metadata = {},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+
+        for key, item in pairs(inventory) do
+            if item.count > 0 then
+                table.insert(newInventory, {
+                    name   = item.name,
+                    count = item.count,
+                    metadata = {},
+                    slot   = currentSlot
+                })
+
+                currentSlot += 1
+            end
+        end
+
+        for k, weapon in ipairs(loadout) do
+            if weapon.components == nil then
+                weapon.components = {}
+            end
+
+            if weapon.ammo == nil then
+                weapon.ammo = 0
+            end
+
+            local components = weapon.components
+
+            table.insert(newInventory, {
+                name   = weapon.name,
+                count = 1,
+                metadata = {ammo = weapon.ammo, components = components},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+
+        MySQL.Async.execute('INSERT INTO inventories (identifier, inventory) VALUES (@identifier, @inventory)', {
+            ['@inventory'] = json.encode(newInventory),
+            ['@identifier'] = "police_vault_"..identifier
+        })
+	end
+
+    print('Police vault Inventory migration completed')
+end, false)
+
+RegisterCommand('migrateorgs', function(source, args, rawCommand)
+    if source ~= 0 then return end
+
+    local result = MySQL.Sync.fetchAll('SELECT * FROM jobs')
+
+    if result == nil then return end
+
+    table.insert(result, {name = 'swat'})
+    table.insert(result, {name = 'sheriff'})
+
+	for i=1, #result, 1 do
+        local identifier = result[i].name
+
+        local items = MySQL.Sync.fetchAll('SELECT * FROM addon_inventory_items WHERE inventory_name = @identifier', {
+            ['@identifier'] = "society_"..identifier
+        })
+
+        local black_money = MySQL.Sync.fetchAll('SELECT * FROM addon_account_data WHERE account_name = @identifier', {
+            ['@identifier'] = "society_"..identifier
+        })[1]
+
+        local datastore = MySQL.Sync.fetchAll('SELECT * FROM datastore_data WHERE name = @identifier', {
+            ['@identifier'] = "society_"..identifier
+        })[1]
+
+        if datastore == nil then
+            datastore = {data = "[]"}
+        end
+
+        local inventory  = items or {}
+        local loadout    = json.decode(datastore.data or "[]").weapons or {}
+        local blackMoney = 0
+
+        if black_money ~= nil then
+            blackMoney = black_money.money
+        end
+
+        local newInventory = {}
+        local currentSlot = 1
+
+        if blackMoney > 0 then
+            table.insert(newInventory, {
+                name   = 'black_money',
+                count = blackMoney,
+                metadata = {},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+
+        for key, item in pairs(inventory) do
+            if item.count > 0 then
+                table.insert(newInventory, {
+                    name   = item.name,
+                    count = item.count,
+                    metadata = {},
+                    slot   = currentSlot
+                })
+
+                currentSlot += 1
+            end
+        end
+
+        for k, weapon in ipairs(loadout) do
+            if weapon.components == nil then
+                weapon.components = {}
+            end
+
+            if weapon.ammo == nil then
+                weapon.ammo = 0
+            end
+
+            local components = weapon.components
+
+            table.insert(newInventory, {
+                name   = weapon.name,
+                count = 1,
+                metadata = {ammo = weapon.ammo, components = components},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+
+        MySQL.Async.execute('INSERT INTO inventories (identifier, inventory) VALUES (@identifier, @inventory)', {
+            ['@inventory'] = json.encode(newInventory),
+            ['@identifier'] = "society_"..identifier
+        })
+	end
+
+    for i=1, #result, 1 do
+        local identifier = result[i].name
+
+        local items = MySQL.Sync.fetchAll('SELECT * FROM addon_inventory_items WHERE inventory_name = @identifier', {
+            ['@identifier'] = "society_"..identifier.."_chefe"
+        })
+
+        local black_money = MySQL.Sync.fetchAll('SELECT * FROM addon_account_data WHERE account_name = @identifier', {
+            ['@identifier'] = "society_"..identifier.."_chefe"
+        })[1]
+
+        local datastore = MySQL.Sync.fetchAll('SELECT * FROM datastore_data WHERE name = @identifier', {
+            ['@identifier'] = "society_"..identifier.."_chefe"
+        })[1]
+
+        if datastore == nil then
+            datastore = {data = "[]"}
+        end
+
+        local inventory  = items or {}
+        local loadout    = json.decode(datastore.data or "[]").weapons or {}
+        local blackMoney = 0
+
+        if black_money ~= nil then
+            blackMoney = black_money.money
+        end
+
+        local newInventory = {}
+        local currentSlot = 1
+
+        if blackMoney > 0 then
+            table.insert(newInventory, {
+                name   = 'black_money',
+                count = blackMoney,
+                metadata = {},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+
+        for key, item in pairs(inventory) do
+            if item.count > 0 then
+                table.insert(newInventory, {
+                    name   = item.name,
+                    count = item.count,
+                    metadata = {},
+                    slot   = currentSlot
+                })
+
+                currentSlot += 1
+            end
+        end
+
+        for k, weapon in ipairs(loadout) do
+            if weapon.components == nil then
+                weapon.components = {}
+            end
+
+            if weapon.ammo == nil then
+                weapon.ammo = 0
+            end
+
+            local components = weapon.components
+
+            table.insert(newInventory, {
+                name   = weapon.name,
+                count = 1,
+                metadata = {ammo = weapon.ammo, components = components},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+
+        MySQL.Async.execute('INSERT INTO inventories (identifier, inventory) VALUES (@identifier, @inventory)', {
+            ['@inventory'] = json.encode(newInventory),
+            ['@identifier'] = "society_"..identifier.."_chefe"
+        })
+	end
+
+    print('Org Inventory migration completed')
+end, false)
+
+local function getGarageInventory(identifier)
+    --GARAGE
+    local items = MySQL.Sync.fetchAll('SELECT * FROM addon_inventory_items WHERE inventory_name = "garage" AND owner = @identifier', {
+        ['@identifier'] = identifier
+    })
+
+    local black_money = MySQL.Sync.fetchAll('SELECT * FROM addon_account_data WHERE account_name = "garage_black_money" AND owner = @identifier', {
+        ['@identifier'] = identifier
+    })[1]
+
+    local datastore = MySQL.Sync.fetchAll('SELECT * FROM datastore_data WHERE name = "garage" AND owner = @identifier', {
+        ['@identifier'] = identifier
+    })[1]
+
+    if datastore == nil then
+        datastore = {data = "[]"}
+    end
+
+    local inventory  = items or {}
+    local loadout    = json.decode(datastore.data or "[]").weapons or {}
+    local blackMoney = 0
+
+    if black_money ~= nil then
+        blackMoney = black_money.money
+    end
+
+    local newInventory = {}
+    local currentSlot = 1
+
+    if blackMoney > 0 then
+        table.insert(newInventory, {
+            name   = 'black_money',
+            count = blackMoney,
+            metadata = {},
+            slot   = currentSlot
+        })
+
+        currentSlot += 1
+    end
+
+    for key, item in pairs(inventory) do
+        if item.count > 0 then
+            table.insert(newInventory, {
+                name   = item.name,
+                count = item.count,
+                metadata = {},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+    end
+
+    for k, weapon in ipairs(loadout) do
+        if weapon.components == nil then
+            weapon.components = {}
+        end
+
+        if weapon.ammo == nil then
+            weapon.ammo = 0
+        end
+
+        local components = weapon.components
+
+        table.insert(newInventory, {
+            name   = weapon.name,
+            count = 1,
+            metadata = {ammo = weapon.ammo, components = components},
+            slot   = currentSlot
+        })
+
+        currentSlot += 1
+    end
+
+    return newInventory
+end
+
+RegisterCommand('migratecasas', function(source, args, rawCommand)
+    if source ~= 0 then return end
+
+    local result = MySQL.Sync.fetchAll('SELECT * FROM users')
+
+    if result == nil then return end
+
+	for i=1, #result, 1 do --bau casa
+        local identifier = result[i].identifier
+        local hasHouse = false
+
+        local ownedCasas = MySQL.Sync.fetchAll('SELECT * FROM casas WHERE owner = @identifier', {
+            ['@identifier'] = identifier
+        }) or {}
+
+        local ownedCasa = nil
+
+        for k, casa in ipairs(ownedCasas) do
+            if Config.properties[casa.id] ~= nil then
+                ownedCasa = casa
+                break
+            end
+        end
+
+        for k, casa in ipairs(ownedCasas) do
+            if Config.properties[casa.id] ~= nil and Config.properties[casa.id].garage ~= nil then
+                ownedCasa = casa
+                break
+            end
+        end
+
+        if ownedCasa ~= nil then
+            hasHouse = true
+        end
+
+        local items = MySQL.Sync.fetchAll('SELECT * FROM addon_inventory_items WHERE inventory_name = "casa" AND owner = @identifier', {
+            ['@identifier'] = identifier
+        })
+
+        local black_money = MySQL.Sync.fetchAll('SELECT * FROM addon_account_data WHERE account_name = "casa_black_money" AND owner = @identifier', {
+            ['@identifier'] = identifier
+        })[1]
+
+        local datastore = MySQL.Sync.fetchAll('SELECT * FROM datastore_data WHERE name = "casa" AND owner = @identifier', {
+            ['@identifier'] = identifier
+        })[1]
+
+        if datastore == nil then
+            datastore = {data = "[]"}
+        end
+
+        local inventory  = items or {}
+        local loadout    = json.decode(datastore.data or "[]").weapons or {}
+        local blackMoney = 0
+
+        if black_money ~= nil then
+            blackMoney = black_money.money
+        end
+
+        local newInventory = {}
+        local currentSlot = 1
+
+        if blackMoney > 0 then
+            table.insert(newInventory, {
+                name   = 'black_money',
+                count = blackMoney,
+                metadata = {},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+
+        for key, item in pairs(inventory) do
+            if item.count > 0 then
+                table.insert(newInventory, {
+                    name   = item.name,
+                    count = item.count,
+                    metadata = {},
+                    slot   = currentSlot
+                })
+
+                currentSlot += 1
+            end
+        end
+
+        for k, weapon in ipairs(loadout) do
+            if weapon.components == nil then
+                weapon.components = {}
+            end
+
+            if weapon.ammo == nil then
+                weapon.ammo = 0
+            end
+
+            local components = weapon.components
+
+            table.insert(newInventory, {
+                name   = weapon.name,
+                count = 1,
+                metadata = {ammo = weapon.ammo, components = components},
+                slot   = currentSlot
+            })
+
+            currentSlot += 1
+        end
+
+        if hasHouse then
+            MySQL.Async.execute('INSERT INTO inventories (identifier, inventory) VALUES (@identifier, @inventory)', {
+                ['@inventory'] = json.encode(newInventory),
+                ['@identifier'] = "casa_"..ownedCasa.id
+            })
+        end
+
+        local garageInv = getGarageInventory(identifier)
+
+        if hasHouse and Config.properties[ownedCasa.id].garage ~= nil then
+            MySQL.Async.execute('INSERT INTO inventories (identifier, inventory) VALUES (@identifier, @inventory)', {
+                ['@inventory'] = json.encode(garageInv),
+                ['@identifier'] = "garage_"..ownedCasa.id
+            })
+        end
+
+        if hasHouse and Config.properties[ownedCasa.id].garage == nil then
+            MySQL.Async.execute('INSERT INTO inventories (identifier, inventory) VALUES (@identifier, @inventory)', {
+                ['@inventory'] = json.encode(garageInv),
+                ['@identifier'] = "storage_unit_"..identifier
+            })
+        end
+
+        if not hasHouse then
+            local slotss = 1
+            local combinedInventory = {}
+
+            for k, item in ipairs(newInventory) do
+                table.insert(combinedInventory, {
+                    name   = item.name,
+                    count = item.count,
+                    metadata = item.metadata,
+                    slot   = slotss
+                })
+
+                slotss += 1
+            end
+
+            for k, item in ipairs(garageInv) do
+                table.insert(combinedInventory, {
+                    name   = item.name,
+                    count = item.count,
+                    metadata = item.metadata,
+                    slot   = slotss
+                })
+
+                slotss += 1
+            end
+
+            MySQL.Async.execute('INSERT INTO inventories (identifier, inventory) VALUES (@identifier, @inventory)', {
+                ['@inventory'] = json.encode(combinedInventory),
+                ['@identifier'] = "storage_unit_"..identifier
+            })
+        end
+	end
+
+    print('Casas Inventory migration completed')
+end, false)]]
+
+
+RegisterCommand("migrateuserinventory", function(source, args, rawCommand)
+    if source ~= 0 then return end
+
+    local result = MySQL.Sync.fetchAll('SELECT * FROM users')
+
+    if result == nil then return end
+
+	for i=1, #result, 1 do
+        local inventory = json.decode(result[i].inventory) or {}
+
+        for k, item in ipairs(inventory) do
+            MySQL.Sync.execute("INSERT INTO inventory_data (identifier, name, count, metadata, slot) VALUES (@identifier, @name, @count, @metadata, @slot)"
+            , {
+                ['@identifier'] = result[i].identifier,
+                ['@name'] = item.name,
+                ['@count'] = item.count,
+                ['@metadata'] = json.encode(item.metadata),
+                ['@slot'] = item.slot
+            })
+        end
+    end
+
+    print("Doneeee")
+end, false)
+
+RegisterCommand("migratetrunk", function(source, args, rawCommand)
+    if source ~= 0 then return end
+
+    local result = MySQL.Sync.fetchAll('SELECT * FROM trunk_inventory')
+
+    if result == nil then return end
+
+	for i=1, #result, 1 do
+        local inventory = json.decode(result[i].inventory) or {}
+
+        for k, item in ipairs(inventory) do
+            MySQL.Sync.execute("INSERT INTO inventory_data (identifier, name, count, metadata, slot) VALUES (@identifier, @name, @count, @metadata, @slot)"
+            , {
+                ['@identifier'] = result[i].plate,
+                ['@name'] = item.name,
+                ['@count'] = item.count,
+                ['@metadata'] = json.encode(item.metadata),
+                ['@slot'] = item.slot
+            })
+        end
+    end
+
+    print("Doneeee")
+end, false)
+
+
+RegisterCommand("migrateinventories", function(source, args, rawCommand)
+    if source ~= 0 then return end
+
+    local result = MySQL.Sync.fetchAll('SELECT * FROM inventories')
+
+    if result == nil then return end
+
+	for i=1, #result, 1 do
+        local inventory = json.decode(result[i].inventory) or {}
+
+        for k, item in ipairs(inventory) do
+            MySQL.Sync.execute("INSERT INTO inventory_data (identifier, name, count, metadata, slot) VALUES (@identifier, @name, @count, @metadata, @slot)"
+            , {
+                ['@identifier'] = result[i].identifier,
+                ['@name'] = item.name,
+                ['@count'] = item.count,
+                ['@metadata'] = json.encode(item.metadata),
+                ['@slot'] = item.slot
+            })
+        end
+    end
+
+    print("Doneeee")
+end, false)

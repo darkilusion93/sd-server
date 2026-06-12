@@ -1,0 +1,218 @@
+@font-face {
+    font-family: 'Pricedown';
+    src: url(fonts/pdown.ttf) /* TTF file for CSS3 browsers */
+  }
+
+body {
+    background: none !important;
+}
+
+#container1 {
+    font-family: 'Pricedown';
+    font-size: 19px;
+    padding       : 4px;
+    position: fixed;
+    top: 5%;             /* mantém a posição vertical fixa */
+    left: 50%;           /* centraliza horizontalmente */
+    display: inline-flex;
+    align-items: center;       /* centraliza verticalmente o texto/emojis */
+    text-align: center;
+    top             : 5px;
+    left            : 40%; /* à 50%/50% du parent référent */
+
+    background-color: rgba(0, 0, 0, 0.5); /* preto semi-transparente */
+    color: #ffffff;
+
+    padding: 1vh 2vh;
+    border-radius: 0.5vh;
+
+    min-width: auto;
+    max-width: auto;
+    white-space: nowrap;
+
+    box-shadow: 0.2vh 0.2vh 0.5vh rgba(0,0,0,0.6),
+                -0.2vh -0.2vh 0.5vh rgba(255,255,255,0.05);
+    border: 0.1vh solid rgba(255, 255, 255, 0.1);
+
+    transition: all 0.2s ease-in-out; /* animação suave */
+    padding: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 3px;
+}
+
+
+
+#texto {
+    font-size: 15px;
+}
+
+span {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+img {
+    width: 22px;
+    vertical-align: middle;
+    margin-top: 3px;
+}
+
+.disableSelection {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: 0;
+}
+
+.container {
+    display: none;
+    width: 86.6vw;
+    margin: auto;
+    margin-top: 18vh;
+}
+
+.rankstitle {
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    height: 2.4vh;
+    line-height: 2.4vh;
+}
+
+.ranksmenu {
+    width: 100%;
+    height: 64vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    overflow: scroll;
+}
+
+.ranksmenu::-webkit-scrollbar {
+    display: none;
+}
+
+
+.car {
+    height: fit-content;
+    width: 14vw;
+    float: left;
+    background-color: rgba(128, 128, 128, 0.3);
+    margin: 0.192vh;
+    position: relative;
+    border-style: solid;
+    border-width: 0.192vh;
+    border-color: rgba(64, 64, 64, 0.0);
+    transition: 0.25s;
+}
+
+.car-image {
+    background: #2c2c2cbf;
+    height: 14vh;
+    width: 14vh; /* Mantém quadrado */
+    margin: 0 auto; /* Centraliza */
+    border-radius: 50%; /* Fica redondo */
+    overflow: hidden;
+}
+
+.car-image > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.car-name {
+    text-align: center;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    height: 1.8vh;
+    overflow: hidden;
+}
+
+.car-info {
+    text-align: center;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+.car-info2 {
+    text-align: center;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+.car-info3 {
+    text-align: center;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+.car-info4 {
+    text-align: center;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+.car-button {
+    width: 97%;
+    line-height: 3.5vh;
+    text-align: center;
+    height: 3.5vh;
+    background-color: rgba(128, 128, 128, 0.3);
+    margin: 0.192vh;
+    position: relative;
+    border-style: solid;
+    border-width: 0.192vh;
+    border-color: rgb(64, 64, 64, 0.0);
+    font-size: 1.3vh;
+    transition: 0.25s;
+}
+
+.car-button:hover {
+    border-color: white;
+}
+
+.car-button:active {
+    background-color: rgba(214, 214, 214, 0.3);
+}
+
+.stand-vip-header {
+    height: 6%;
+    width: 99.45%;
+    float: left;
+    background-color: rgba(128, 128, 128, 0.3);
+    margin: 0.192vh;
+    position: relative;
+    border-style: solid;
+    border-width: 0.192vh;
+    border-color: rgba(64, 64, 64, 0.0);
+    transition: 0.25s;
+    display: flex;
+}
+
+.vip-header-button {
+    width: 11%;
+    line-height: 3.5vh;
+    text-align: center;
+    height: 83%;
+    background-color: rgba(128, 128, 128, 0.3);
+    margin: 0.192vh;
+    position: relative;
+    border-style: solid;
+    border-width: 0.192vh;
+    border-color: rgb(64, 64, 64, 0.0);
+    font-size: 1.3vh;
+    transition: 0.25s;
+}
+
+.vip-header-button:hover {
+    border-color: white;
+}
+
+.vip-header-button:active {
+    background-color: rgba(214, 214, 214, 0.3);
+}
+
+.vip-header-button-active {
+    background-color: rgba(214, 214, 214, 0.3);
+}

@@ -1,0 +1,46 @@
+<!doctype HTML>
+<html>
+<head>
+  <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.min.js" type="text/javascript"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald')
+  </style>
+
+  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+</head>
+<body style="background-color: transparent !important";>
+  <div class="scanner">
+    <img class="scanner-photo" align="middle" src="./img/scanner.png" width="50%" height="50%">
+    <div class="finger-btn" id="finger-input"></div>
+    <div class="s-content" id="s-content">
+
+      <div class="data-s">
+
+        <span>NOME : </span><span style="color:blue;" id="firstname-s">????</span><br/>
+        <span>APELIDO : </span><span style="color:blue;" id="lastname-s">????</span><br/>
+        <span>NASCIMENTO : </span><span style="color:blue;" id="dob-s">1990-01-01</span><br/>
+        <span>SEXO : </span><span style="color:blue;" id="account-s">????</span><br/>
+        <span>NIF : </span><span style="color:blue;" id="phone-s">XXXXXXXXXX</span><br/>
+      </div>
+    </div>
+  </div>
+
+  <div class="computer">
+    <img class="computer-photo" align="middle" src="./img/scanner.png" width="50%" height="50%">
+    <div class="c-content" id="c-content">
+      <div class="data-c">
+        <span>NOME : </span><span style="color:blue;" id="firstname-c">????</span><br/>
+        <span>APELIDO : </span><span style="color:blue;" id="lastname-c">????</span><br/>
+        <span>NASCIMENTO : </span><span style="color:blue;" id="dob-c">1990-01-01</span><br/>
+        <span>SEXO : </span><span style="color:blue;" id="account-c">????</span><br/>
+        <span>NIF : </span><span style="color:blue;" id="phone-c">XXXXXXXXXX</span><br/>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/script.js" type="text/javascript"></script>
+</body>
+</html>

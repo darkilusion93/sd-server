@@ -1,0 +1,324 @@
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    -webkit-touch-callout: none;
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+	scroll-behavior: smooth;
+    font-size: 1.5vh;
+    font-family: 'Lato', sans-serif;
+    text-transform: uppercase;
+}
+
+#toggle {
+    display: none;
+}
+
+.wrapper {
+    position: fixed;
+    width: 22.9vw;
+    height: 56vh;
+    top: 5vh;
+    left: 3vw;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.backbtn {
+    position: fixed;
+    width: 0.8vw;
+    left: 3.2vw;
+    top: 5.4vh;
+    z-index: 98;
+    filter: invert();
+    display: none;
+    transition: 0.15s;
+}
+
+.backbtn:hover {
+    color: rgb(190, 190, 190);
+}
+
+
+.titlebox {
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    height: 2.2vh;
+    line-height: 2.2vh;
+    color: white;
+}
+
+.item-wrapper {
+    width: 100%;
+    height: 50vh;
+    overflow: scroll;
+    display: grid;
+    grid-template-columns: repeat(4, 5.6vw);
+    grid-auto-rows: 11.4vh;
+    grid-gap: 0.1vw 0.1vw;
+}
+
+.item-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+.menu-item {
+    float: left;
+    width: 5.4vw;
+    height: 11vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    margin: 0.192vh;
+    position: relative;
+    border-style: solid;
+    border-width: 0.192vh;
+    border-color: rgba(64, 64, 64, 0.0);
+    transition: 0.25s;
+}
+
+.slider-item {
+    width: 22.5vw;
+    float: left;
+    height: 11vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    margin: 0.192vh;
+    position: relative;
+    border-style: solid;
+    border-width: 0.192vh;
+    border-color: rgba(64, 64, 64, 0.0);
+    transition: 0.25s;
+}
+
+.stance-slider {
+    width: 100%;
+    height: 100%;
+}
+
+.stance-slider:focus{
+    outline: none;
+}
+
+.selected {
+    background-color: rgba(0, 204, 255, 0.6);
+}
+
+.selected .item-name {
+    opacity: 1.0;
+    background-color: rgba(0, 204, 220, 0.85) !important;
+}
+
+.menu-item:hover {
+    border-color: white;
+}
+
+.slider-item:hover {
+    border-color: white;
+}
+
+.item-icon {
+    height: 8.5vh;
+    width: 8.5vh;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+	filter: brightness(0) invert(1);
+}
+
+.item-icon2 {
+    height: 8.5vh;
+    width: 8.5vh;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.menu-item .item-name {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    padding-top: 0.5vh;
+    padding-bottom: 0.4vh;
+    width: 100%;
+    min-height: 1.6vh;
+    z-index: 500;
+    font-size: 1.1vh;
+    color: white;
+    background-color: rgba(13, 13, 13, 0.8);
+}
+
+.slider-item .item-name {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    padding-top: 0.5vh;
+    padding-bottom: 0.4vh;
+    width: 100%;
+    min-height: 1.6vh;
+    z-index: 500;
+    font-size: 1.1vh;
+    color: white;
+    background-color: rgba(13, 13, 13, 0.8);
+}
+
+.item-icon-wrapper {
+    height: 9vh;
+    width: 100%;
+}
+
+.bottomwrapper {
+    width: 100%;
+    height: 3.8vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: grid;
+    grid-template-columns: 12vw 6vw;
+    grid-gap: 2vw 5.2vw;
+}
+
+.total {
+    width: 12vw;
+    font-size: 2vh;
+    line-height: 3.8vh;
+    height: 100%;
+    padding-left: 0.5vw;
+    overflow: hidden;
+    color: white;
+}
+
+.finishbutton {
+    width: 5vw;
+    height: 3vh;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.3);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    position: relative;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgba(64, 64, 64, 0.0);
+    text-align: center;
+    transition: 0.25s;
+}
+
+.finishbutton:hover {
+    border-color: white;
+}
+
+#colorPicker {
+    margin-left: 4.5vw;
+    margin-top: 1vw;
+}
+
+#texto {
+    margin: 0;
+	position: absolute;
+	left: 5.5vw;
+	transform: translate(-50%, -50%);
+	top: 39.1vh;
+	width: 7vw;
+	height: 1.75vh;
+	font-family: 'Roboto';
+    color: white;
+    font-size: 1.5vh;
+    font-weight: bold;
+}
+
+#hexInput {
+	border-radius: 10px;
+	border: 5px solid black;
+    margin: 0;
+	position: absolute;
+	left: 11vw;
+	margin-right: -11vw;
+	transform: translate(-50%, -50%);
+	top: 39.1vh;
+	width: 7vw;
+	height: 1.75vh;
+	padding: 0 5px
+}
+
+.freecam {
+    display: none;
+    position: fixed;
+    top: 61.5vh;
+    width: 22.9vw;
+    height: 3vh;
+    left: 3vw;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.3);
+    line-height: 3vh;
+    font-size: 1.5vh;
+    text-align: center;
+    color: white;
+}
+
+#finishpopup {
+    width: 20vw;
+    height: 10vh;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(0 0 0 / 61%);
+}
+
+.popuptitle {
+    width: 100%;
+    height: 5vh;
+    text-align: center;
+    line-height: 5vh;
+    font-size: 2.5vh;
+    color: white;
+}
+
+.secondline {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+}
+
+.popupbtn {
+    width: 6vw;
+    height: 3vh;
+    line-height: 3vh;
+    color: white;
+    background-color: rgba(42, 42, 42, 0.3);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    position: relative;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgba(64, 64, 64, 0.0);
+    text-align: center;
+    transition: 0.25s;
+}
+
+.popupbtn:hover {
+    border-color: white;
+}
+
+#popup {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 22.9vw;
+    height: 56vh;
+    top: 5vh;
+    left: 3vw;
+}

@@ -1,0 +1,96 @@
+
+
+local tollboths <const> = {
+    tollboth_1 = {
+        {x = -3011.370, y = 1471.292, z = 26.591, rx = 0.0, ry = 0.0, rz = -31.711},
+        {x = -3002.347, y = 1465.559, z = 26.591, rx = 0.0, ry = 0.0, rz = 146.616},
+        {x = -2996.244, y = 1461.440, z = 26.591, rx = 0.0, ry = 0.0, rz = 146.616},
+    },
+    tollboth_2 = {
+        {x = -2639.334, y = 1569.621, z = 120.401, rx = 0.0, ry = 0.0, rz = -167.658},
+        {x = -2648.069, y = 1568.204, z = 120.406, rx = 0.0, ry = 0.0, rz = 8.366},
+    },
+    tollboth_3 = {
+        {x = -1473.580, y = 1553.252, z = 111.229, rx = 0.0, ry = 0.0, rz = 175.134},
+        {x = -1482.312, y = 1554.176, z = 111.195, rx = 0.0, ry = 0.0, rz = -3.541},
+    },
+    tollboth_4 = {
+        {x = -803.000, y = 1393.703, z = 246.293, rx = 8.441, ry = 0.0, rz = 176.718},
+        {x = -811.960, y = 1394.513, z = 246.249, rx = -8.440, ry = -0.076, rz = -3.799},
+    },
+    tollboth_5 = {
+        {x = 168.854, y = 1473.472, z = 238.660, rx = 0.0, ry = 0.0, rz = -142.506},
+        {x = 161.567, y = 1468.029, z = 238.663, rx = 0.841, ry = 0.000, rz = 39.026},
+    },
+    tollboth_6 = {
+        {x = 1238.176, y = 1274.409, z = 142.579, rx = 0.000, ry = -0.455, rz = 179.799},
+        {x = 1229.197, y = 1274.616, z = 142.553, rx = -0.002, ry = -0.309, rz = -0.449},
+    },
+    tollboth_7 = {
+        {x = 1297.448, y = 1262.900, z = 107.646, rx = 0.000, ry = -0.011, rz = -177.934},
+        {x = 1288.543, y = 1262.817, z = 107.648, rx = -0.000, ry = -0.447, rz = 1.348},
+    },
+    tollboth_8 = {
+        {x = 1727.173, y = 1460.730, z = 84.128, rx = 0.000, ry = 0.000, rz = 170.322},
+        {x = 1712.527, y = 1463.500, z = 84.149, rx = 0.000, ry = -2.631, rz = 170.322},
+        {x = 1706.024, y = 1464.549, z = 84.279, rx = 0.014, ry = 1.798, rz = 170.781},
+        {x = 1695.660, y = 1466.281, z = 84.331, rx = 0.079, ry = 3.305, rz = -10.156},
+        {x = 1689.173, y = 1467.444, z = 84.207, rx = 0.079, ry = -3.594, rz = -10.165},
+    },
+    tollboth_9 = {
+        {x = 2031.770, y = 1493.400, z = 74.629, rx = -0.063, ry = -2.746, rz = 26.045},
+        {x = 2038.469, y = 1496.511, z = 74.742, rx = -0.063, ry = 2.593, rz = 26.040},
+        {x = 2047.352, y = 1500.689, z = 74.741, rx = -0.015, ry = 1.995, rz = -156.061},
+        {x = 2053.542, y = 1503.789, z = 74.630, rx = -0.015, ry = -2.362, rz = -156.060},
+    },
+    tollboth_10 = {
+        {x = 2542.675, y = 1790.561, z = 22.932, rx = 0.000, ry = -0.600, rz = -179.281},
+        {x = 2534.575, y = 1790.678, z = 22.886, rx = 0.021, ry = -0.990, rz = 0.459},
+    },
+    tollboth_11 = {
+        {x = 1598.895, y = 1276.107, z = 88.489, rx = 0.000, ry = 0.000, rz = -156.268},
+    },
+}
+
+local createdProps = {}
+
+RegisterNetEvent("cframework:toggleTollbooth", function(toolbothId)
+    local source <const> = source
+    local job <const> = ESX.getJob(source)
+    local tollboth <const> = tollboths[toolbothId]
+
+    if tollboth == nil or job.name ~= "police" or job.grade < 4 then
+        return
+    end
+
+    if not ESX.playerInsideLocation(source, {vector3(tollboth[1].x, tollboth[1].y, tollboth[1].z)}, 40.0) then
+        return
+    end
+
+    if createdProps[toolbothId] ~= nil and #createdProps[toolbothId] > 0 then
+        for _, v in pairs(createdProps[toolbothId]) do
+            if DoesEntityExist(v) then
+                DeleteEntity(v)
+            end
+        end
+
+        createdProps[toolbothId] = {}
+
+        TriggerClientEvent("esx:showNotification", source, T("TOLLBOOTH_REMOVED_BARRIERS"), "inform")
+        return
+    end
+
+    for _, v in pairs(tollboth) do
+        local object = CreateObject(`nteam_border_block`, v.x, v.y, v.z, true, false, false)
+
+        SetEntityRotation(object, v.rx, v.ry, v.rz, 0, true)
+
+        if createdProps[toolbothId] == nil then
+            createdProps[toolbothId] = {}
+        end
+
+        table.insert(createdProps[toolbothId], object)
+    end
+
+    TriggerClientEvent("esx:showNotification", source, T("TOLLBOOTH_ACTIVATED_BARRIERS"), "inform")
+end)

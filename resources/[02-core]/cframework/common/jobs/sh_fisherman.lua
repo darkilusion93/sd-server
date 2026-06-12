@@ -1,0 +1,9 @@
+Config.Stations["fisherman"] = {
+    MaxMembers = -1,
+    JobName = "🐟 Pescador",
+    JobGrades = {
+        ["0"] = {grade = 0, name = "employee", label = "Funcionário", salary = 8000, skin_male = {mask_1=0,arms=1,glasses_1=0,hair_color_2=4,makeup_1=0,face=19,glasses=0,mask_2=0,makeup_3=0,skin=29,helmet_2=0,lipstick_4=0,sex=0,torso_1=24,makeup_2=0,bags_2=0,chain_2=0,ears_1=-1,bags_1=0,bproof_1=0,shoes_2=0,lipstick_2=0,chain_1=0,tshirt_1=0,eyebrows_3=0,pants_2=0,beard_4=0,torso_2=0,beard_2=6,ears_2=0,hair_2=0,shoes_1=36,tshirt_2=0,beard_3=0,hair_1=2,hair_color_1=0,pants_1=48,helmet_1=-1,bproof_2=0,eyebrows_4=0,eyebrows_2=0,decals_1=0,age_2=0,beard_1=5,shoes=10,lipstick_1=0,eyebrows_1=0,glasses_2=0,makeup_4=0,decals_2=0,lipstick_3=0,age_1=0}, skin_female = {mask_1=0,arms=5,glasses_1=5,hair_color_2=4,makeup_1=0,face=19,glasses=0,mask_2=0,makeup_3=0,skin=29,helmet_2=0,lipstick_4=0,sex=1,torso_1=52,makeup_2=0,bags_2=0,chain_2=0,ears_1=-1,bags_1=0,bproof_1=0,shoes_2=1,lipstick_2=0,chain_1=0,tshirt_1=23,eyebrows_3=0,pants_2=0,beard_4=0,torso_2=0,beard_2=6,ears_2=0,hair_2=0,shoes_1=42,tshirt_2=4,beard_3=0,hair_1=2,hair_color_1=0,pants_1=36,helmet_1=-1,bproof_2=0,eyebrows_4=0,eyebrows_2=0,decals_1=0,age_2=0,beard_1=5,shoes=10,lipstick_1=0,eyebrows_1=0,glasses_2=0,makeup_4=0,decals_2=0,lipstick_3=0,age_1=0}},
+    },
+    MobileAction = { {value = 'billing', nome = 'Multa'}, {value = 'handcuff'}, {value = 'search'} },
+    CanBossCreateRaces = false, BuyMenu = {}, AuthorizedCrafts = {}, Duty = {}, Cloakrooms = {}, Armories = {}, Special = {}, Vehicles = {}, Helicopters = {}, Boats = {}, VehicleDeleters = {}, CanBossAddCars = false, BossActions = {}, Doors = {}
+}

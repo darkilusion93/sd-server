@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaterData>
+  <WaterQuads>
+    <Item>
+      <minX value="-3251.5752" />
+      <minY value="779.9041" />
+      <maxX value="-3230.4785" />
+      <maxY value="799.4432" />
+      <z value="9.2035" />
+      <Type value="1" />
+      <HasLimitedDepth value="true" />
+      <LimitedDepth value="6.0" />
+    </Item>
+  </WaterQuads>
+</WaterData>

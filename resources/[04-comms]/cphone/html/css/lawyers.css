@@ -1,0 +1,242 @@
+.lawyers-app {
+    display: none;
+    height: 100%;
+    width: 100%;
+    background: rgb(46, 46, 46);
+    overflow: hidden;
+}
+
+.lawyers-header {
+    position: absolute;
+    width: 100%;
+    height: 12vh;
+    background-color: #004682;
+    top: 0;
+    border-bottom: .3vh solid #003666;
+    color: white;
+    font-family: 'Samsung Sans Medium';
+    font-size: 1.8vh;
+}
+
+.lawyers-header > p {
+    line-height: 12vh;
+    text-indent: 2vh;
+}
+
+.lawyers-header > span {
+    position: absolute;
+    top: 9vh;
+    left: 2vh;
+    font-size: 1.2vh;
+    height: 2vh;
+    color: rgba(255, 255, 255, 0.842);
+}
+
+.lawyers-list {
+    position: absolute;
+    background-color: #00000033;
+    width: 90%;
+    height: 73%;
+
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    bottom: 3%;
+
+    border-radius: .5vh;
+
+    overflow-y: scroll;
+}
+
+.lawyers-list::-webkit-scrollbar {
+    display: none;
+}
+
+.lawyer-list {
+    position: relative;
+    width: 95%;
+    height: 6vh;
+    background-color: rgba(31, 31, 31, 0.89);
+    margin: 2.5%;
+
+    border-radius: .5vh;
+}
+
+.lawyer-list-firstletter {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3.5vh;
+    height: 3.5vh;
+    background-color: rgb(42, 137, 214);
+    text-align: center;
+    left: 1vh;
+    line-height: 3.5vh;
+    border-radius: 50%;
+    font-family: 'Samsung Sans Medium';
+    font-size: 1.8vh;
+
+    color: rgb(255, 255, 255);
+}
+
+.lawyer-list-fullname {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 5.5vh;
+    font-family: 'Samsung Sans Medium';
+    font-size: 1.5vh;
+
+    max-width: 14vh;
+
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+
+    color: rgb(255, 255, 255);
+}
+
+.no-lawyers {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Samsung Sans Medium';
+    font-size: 1.3vh;
+
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+
+    max-width: 14vh;
+
+    color: rgb(255, 255, 255);
+}
+
+.lawyer-list-call {
+    color: white;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    right: 2vh;
+    font-size: 2vh;
+
+    transition: .08s ease-in-out;
+}
+
+.lawyer-list-call:hover {
+    color: rgb(245, 182, 66);
+    opacity: .8;
+
+    cursor: pointer;
+}
+
+.new-lawyers {
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    background: #363636;
+    overflow: hidden;
+    left: -30vh;
+}
+
+.new-lawyers-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 5vh;
+    background-color: #363636;
+}
+
+.new-lawyers-footer-item {
+    position: relative;
+    float: left;
+    width: 50%;
+    height: 100%;
+    background-color: #363636;
+    text-align: center;
+    line-height: 5vh;
+    font-size: 2.2vh;
+    transition: .1s linear;
+    color: rgb(224, 224, 224);
+}
+
+.new-lawyers-footer-item:hover {
+    background-color: rgb(43, 43, 43);
+    transition: .1s linear;
+}
+
+.new-lawyers-footer-item:hover .new-lawyers-icon {
+    color: rgb(221, 221, 221);
+    animation: Shake 1s infinite;
+}
+
+.new-lawyers-header {
+    position: absolute;
+    width: 100%;
+    height: 10vh;
+    top: 3vh;
+}
+
+#new-lawyers-header-text {
+    position: absolute;
+    top: 5vh;
+    left: 2vh;
+    font-family: 'Helvetica';
+    font-size: 1.8vh;
+    color: rgb(218, 218, 218);
+}
+
+.new-lawyers-textarea {
+    color: rgb(218, 218, 218);
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 15vh;
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    resize: none;
+    padding: 1.5vh;
+    font-family: 'Helvetica';
+    transition: .1s linear;
+    background: transparent;
+}
+
+.new-lawyers-contentarea {
+    height: 44vh;
+    width: 80%;
+    margin: auto;
+    margin-top: 12vh;
+    background: #00000033;
+    border-radius: 0.5vh;
+    position: absolute;
+    left: 3vh;
+}
+
+.new-lawyers-number {
+    color: white;
+    width: 95%;
+    height: 5vh;
+    line-height: 5vh;
+    text-align: center;
+    background: rgba(31, 31, 31, 0.89);
+    margin: auto;
+    position: relative;
+    border-radius: 0.5vh;
+    font-size: 1.5vh;
+    margin-top: 0.5vh;
+    transition: 0.2s;
+}
+
+.new-lawyers-number:hover {
+    background: rgba(61, 61, 61, 0.89);
+}
+
+.new-lawyers-number:active {
+    background: rgba(100, 100, 100, 0.89);
+}

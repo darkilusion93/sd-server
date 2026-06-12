@@ -1,0 +1,37 @@
+-- VARIABLES & TABLES
+local INSTANCE = {}
+local synced_table = {}
+local isInstanced = false
+
+
+-- FUNCTIONS FOR PED
+ESX.Game.ConcealPlayer = function(instace)
+	if instace then
+		isInstanced = true
+	else
+		isInstanced = false
+
+		for _, player in ipairs(GetActivePlayers()) do
+			if player ~= PlayerId() then
+				NetworkConcealPlayer(player, false)
+			end
+		end
+	end
+end
+
+-- MAIN LOOP
+Citizen.CreateThread(function()
+	while true do Citizen.Wait(500)
+		for _, player in ipairs(GetActivePlayers()) do
+			if player ~= PlayerId() then
+				if isInstanced then
+					NetworkConcealPlayer(player, true)
+				else
+					if NetworkIsPlayerConcealed(player) then
+						NetworkConcealPlayer(player, false)
+					end
+				end
+			end
+		end
+	end
+end)

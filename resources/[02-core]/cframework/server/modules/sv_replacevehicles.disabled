@@ -1,0 +1,59 @@
+--[[local vehiclesToReplace = {
+    --[""..GetHashKey("19gt500")] =           GetHashKey("dominator"),
+}
+
+local replacedVehicles = 0
+
+Citizen.CreateThread(function()
+    local dbVehicles = MySQL.Sync.fetchAll('SELECT * FROM owned_vehicles')
+
+    if dbVehicles == nil then
+        return
+    end
+
+    for i=1, #dbVehicles, 1 do
+        local vehicle = json.decode(dbVehicles[i].vehicle)
+        local plate = dbVehicles[i].plate
+
+        if vehiclesToReplace[vehicle.model .. ""] then
+
+            vehicle.model = vehiclesToReplace[vehicle.model .. ""]
+
+            MySQL.Async.execute('UPDATE owned_vehicles SET vehicle = @vehicle WHERE plate = @plate', {
+                ['@vehicle'] = json.encode(vehicle),
+                ['@plate'] = plate
+            })
+            --print("Replaced vehicle: "..vehicle.model)
+            replacedVehicles = replacedVehicles + 1
+        end
+    end
+
+    print("Finished replacing vehicles. Replaced "..replacedVehicles.." from " .. #dbVehicles .. " vehicles.")
+end)]]
+
+RegisterCommand("lookupvehicle", function (source, args, raw)
+    local dbVehicles = MySQL.Sync.fetchAll('SELECT * FROM owned_vehicles')
+    local lookedUpVehicles, matchingVehicles = 0, 0
+
+    if args[1] == nil then
+        print("Usage: /lookupvehicle [vehicleName]")
+        return
+    end
+
+    local vehicleToLookUp = GetHashKey(args[1])
+
+    if dbVehicles == nil then
+        return
+    end
+
+    for i=1, #dbVehicles, 1 do
+        local vehicle = json.decode(dbVehicles[i].vehicle)
+        matchingVehicles += 1
+
+        if vehicleToLookUp == vehicle.model then
+            lookedUpVehicles += 1
+        end
+    end
+
+    print("Found "..lookedUpVehicles.." out of ".. matchingVehicles .." with " .. args[1] .. " name.")
+end, false)

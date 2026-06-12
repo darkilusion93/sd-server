@@ -1,0 +1,220 @@
+local CurrentAction, CurrentActionMsg, CurrentActionData
+
+local trickOrTreatPeds = {
+    vector4(997.34, -729.14, -57.82, 307.18),
+    vector4(979.22, -716.14, 58.22, 312.25),
+    vector4(970.83, -701.16, 58.48, 351.17),
+    vector4(960.51, -669.50, 58.45, 299.11),
+    vector4(943.60, -653.69, 58.43, 219.36),
+    vector4(929.07, -639.62, 58.24, 320.02),
+    vector4(903.09, -615.55, 58.45, 224.68),
+    vector4(886.84, -608.08, 58.45, 316.22),
+    vector4(861.65, -583.28, 58.16, 359.58),
+    vector4(844.17, -562.88, 57.83, 192.38),
+    vector4(850.69, -532.68, 57.93, 264.12),
+    vector4(862.08, -509.53, 5733, 227.95),
+    vector4(906.43, -489.74, 59.44, 203.16),
+    vector4(921.94, -478.02, 61.08, 205.95),
+    vector4(944.06, -463.56, 61.40, 123.21),
+    vector4(967.21, -451.60, 62.79, 213.61),
+    vector4(987.86, -433.45, 63.89, 217.56),
+    vector4(1010.37, -423.36, 65.35, 306.44),
+    vector4(1028.97, -408.52, 66.14, 218.24),
+    vector4(1060.63, -378.32, 68.23, 223.28),
+    vector4(1113.98, -391.15, 68.95, 62.13),
+    vector4(1101.05, -411.47, 67.56, 82.60),
+    vector4(1099.36, -438.66, 67.79, 80.54),
+    vector4(1098.55, -464.63, 67.32, 165.09),
+    vector4(1090.05, -484.21, 65.66, 77.17),
+}
+
+local specialItemPeds = {
+    {pos = vector4(186.59, -915.46, 30.69, 142.74),   ped = `u_m_o_filmnoir`},
+    {pos = vector4(-1759.40, -262.54, 49.11, 152.27),  ped = `u_m_o_filmnoir`},
+    {pos = vector4(-800.39, 170.62, 72.84, 33.73),  ped = `u_m_o_filmnoir`},
+    {pos = vector4(1978.43, 3819.27, 33.43, 120.46), ped = `u_m_o_filmnoir`},
+    {pos = vector4(1943.82, 4658.10, 40.58, 220.60), ped = `g_m_y_lost_03`},
+    {pos = vector4(-884.46, 7626.37, 41.88, 245.28), ped = `player_two`},
+    {pos = vector4(4595.24, -4873.30, 17.99, 166.05),  ped = `u_m_o_filmnoir`},
+}
+
+
+function CreateEvilPed()
+    local plyPed = PlayerPedId()
+    local pos = GetEntityCoords(plyPed)
+    SetPedRelationshipGroupDefaultHash(plyPed,`SPECIAL`)
+    SetPedRelationshipGroupHash(plyPed,`SPECIAL`)
+    local randomAlt     = math.random(0,359)
+    local randomDist    = math.random(50,80)
+    local spawnPos      = pos + PointOnSphere(0.0,randomAlt,randomDist)
+    while World3dToScreen2d(spawnPos.x,spawnPos.y,spawnPos.z) and not IsPointOnRoad(spawnPos.x,spawnPos.y,spawnPos.z) do
+      randomAlt   = math.random(0,359)
+      randomDist  = math.random(50,80)
+      spawnPos    = GetEntityCoords(PlayerPedId()) + PointOnSphere(0.0,randomAlt,randomSphere)
+      Citizen.Wait(0)
+    end
+    local hashKey = `u_m_y_zombie_01`--`s_m_y_clown_01`
+    local pedType = GetPedType(hashKey)
+    RequestModel(hashKey)
+    while not HasModelLoaded(hashKey) do
+        RequestModel(hashKey)
+        Citizen.Wait(100)
+    end
+
+    local EvilPed = CreatePed(pedType, hashKey, spawnPos, GetEntityHeading(plyPed), false, false) --ClonePed(plyPed, GetEntityHeading(plyPed), false, false)
+    SetPedRelationshipGroupDefaultHash(EvilPed,`SPECIAL`)
+    SetPedRelationshipGroupHash(EvilPed,`SPECIAL`)
+    SetEntityCanBeDamagedByRelationshipGroup(PlayerPedId(), true, `SPECIAL`)
+    SetPedDropsWeaponsWhenDead(EvilPed, false)
+    DecorSetBool(EvilPed, 'ScriptedPed', true)
+    Citizen.Wait(500)
+    local weapon = GetHashKey("weapon_battleaxe")
+    GiveWeaponToPed(EvilPed, weapon, 80, false, true)
+    SetCurrentPedWeapon(EvilPed, weapon, 1)
+    SetEntityCoordsNoOffset(EvilPed, spawnPos.x,spawnPos.y,spawnPos.z + 1.0)
+    SetPedComponentVariation(EvilPed, 1, 60, 0, 0, 0)
+    SetModelAsNoLongerNeeded(hashKey)
+    Wait(100)
+    Citizen.CreateThread(function()
+        while DoesEntityExist(EvilPed) do
+            local dist = GetVecDist(GetEntityCoords(PlayerPedId()), GetEntityCoords(EvilPed))
+            if dist > 5.0 then
+            TaskGoToEntity(EvilPed, PlayerPedId(), -1, 4.0, 100.0, 1073741824, 0)
+            Wait(1000)
+            else
+            if not IsTaskMoveNetworkActive(EvilPed) then
+                RequestAnimDict("anim@mp_point")
+                while not HasAnimDictLoaded("anim@mp_point") do Wait(0); end
+                TaskMoveNetworkByName(EvilPed, "task_mp_pointing", 0.5, 0, "anim@mp_point", 24)
+                SetPedCurrentWeaponVisible(EvilPed, 1, 1, 1, 1)
+                SetPedConfigFlag(EvilPed, 36, 1)
+            end
+
+            TaskCombatPed(EvilPed, PlayerPedId(), 0, 16)
+
+            if not LastPedTurn or (GetCloudTimeAsInt() - LastPedTurn) > 1000 then
+                LastPedTurn = GetCloudTimeAsInt()
+                TaskTurnPedToFaceEntity(EvilPed, PlayerPedId(), -1)
+            end
+
+            if IsEntityDead(EvilPed) == 1 then
+                DeleteEntity(EvilPed)
+            end
+
+            SetTaskMoveNetworkSignalFloat (EvilPed, "Pitch",          0.4)
+            SetTaskMoveNetworkSignalFloat (EvilPed, "Heading",        0.5)
+            SetTaskMoveNetworkSignalBool  (EvilPed, "isBlocked",      false)
+            SetTaskMoveNetworkSignalBool  (EvilPed, "isFirstPerson",  false)
+
+            if IsPedRagdoll(EvilPed) then
+                while IsPedRagdoll(EvilPed) do Wait(0); end
+                ClearPedTasksImmediately(EvilPed)
+                Wait(10)
+            end
+            Wait(0)
+            end
+            Wait(0)
+        end
+    end)
+end
+
+Citizen.CreateThread(function()
+    for i = 1, #trickOrTreatPeds, 1 do
+        local randomModel = math.random(1, 2) == 1 and `cs_bradcadaver` or `mp_m_marston_01`
+
+        exports.ft_libs:AddPed("halloween_trick_treat" .. i, {model = randomModel, x = trickOrTreatPeds[i].x, y = trickOrTreatPeds[i].y, z = trickOrTreatPeds[i].z, w = trickOrTreatPeds[i].w})
+        exports.ft_libs:AddTrigger("halloween_trick_treat" .. i, {x = trickOrTreatPeds[i].x, y = trickOrTreatPeds[i].y, z = trickOrTreatPeds[i].z, weight = 1.7, height = 2,
+        enter = {eventClient = "cframework:hasEnteredTrickOrTreat"}, exit = {eventClient = "cframework:hasExitedTrickOrTreat"}, data = {"trick_treat", i}, active = {}})
+    end
+
+    for i = 1, #specialItemPeds, 1 do
+        exports.ft_libs:AddPed("halloween_special_ped" .. i, {model = specialItemPeds[i].ped, x = specialItemPeds[i].pos.x, y = specialItemPeds[i].pos.y, z = specialItemPeds[i].pos.z, w = specialItemPeds[i].pos.w})
+        exports.ft_libs:AddTrigger("halloween_special_ped" .. i, {x = specialItemPeds[i].pos.x, y = specialItemPeds[i].pos.y, z = specialItemPeds[i].pos.z, weight = 1.7, height = 2,
+        enter = {eventClient = "cframework:hasEnteredTrickOrTreat"}, exit = {eventClient = "cframework:hasExitedTrickOrTreat"}, data = {"halloween_special", i}, active = {}})
+    end
+end)
+
+AddEventHandler("cframework:hasEnteredTrickOrTreat", function(zone)
+	CurrentAction = zone[1]
+	CurrentActionData = zone[2]
+
+    if CurrentAction == "trick_treat" then
+        CurrentActionMsg = "Pressiona ~INPUT_CONTEXT~ para doçura ou travessura"
+    end
+
+    if CurrentAction == "halloween_special" then
+        CurrentActionMsg = "Pressiona ~INPUT_CONTEXT~ para receber a pista"
+    end
+
+
+	while CurrentAction ~= nil do
+		if ESX.isHandcuffed() then
+			CurrentAction = nil
+		end
+
+		ESX.ShowHelpNotification(CurrentActionMsg)
+
+		if IsControlJustReleased(0, 38) then
+			if CurrentAction == "trick_treat" then
+				TriggerServerEvent("cframework:trickOrTreat", CurrentActionData)
+			end
+
+            if CurrentAction == "halloween_special" then
+				TriggerServerEvent("cframework:halloweenSpecial", CurrentActionData)
+			end
+
+			CurrentAction = nil
+		end
+
+		Citizen.Wait(0)
+	end
+end)
+
+AddEventHandler("cframework:hasExitedTrickOrTreat", function()
+	CurrentAction = nil
+	ESX.UI.Menu.CloseAll()
+end)
+
+RegisterNetEvent("cframework:halloweenTrickTreatCooldown", function()
+    ESX.ShowNotification("Ainda estás em cooldown, tens que esperar até fazeres doçura ou travessura novamente", "error")
+end)
+
+RegisterNetEvent("cframework:halloweenBlockSpecial", function()
+    ESX.ShowNotification("Já não podes receber essa pista, tenta procurar outras", "error")
+end)
+
+RegisterNetEvent("cframework:halloweenBlockNext", function()
+    ESX.ShowNotification("Ainda não podes receber essa pista, tenta procurar outras", "error")
+end)
+
+RegisterNetEvent("cframework:halloweenTrickTreatSubtitles", function(text, index, type)
+    local lib <const>, anim <const> = "mp_common", "givetake1_a"
+
+    ESX.DrawMissionText(text, 20000)
+
+    RequestAnimDict(lib)
+    while not HasAnimDictLoaded(lib) do
+        Citizen.Wait(0)
+    end
+
+    local ped
+
+    if type == "treat" then
+        ped = exports.ft_libs:GetPedHandle("halloween_trick_treat" .. index)
+    else
+        ped = exports.ft_libs:GetPedHandle("halloween_special_ped" .. index)
+    end
+
+    TaskPlayAnim(PlayerPedId(), lib, anim, 8.0, -8.0, -1, 0, 0, false, false, false)
+    TaskPlayAnim(ped, lib, anim, 8.0, -8.0, -1, 0, 0, false, false, false)
+
+    if type == "special" then
+        for i = 1, index, 1 do
+            CreateEvilPed()
+            CreateEvilPed()
+            CreateEvilPed()
+            CreateEvilPed()
+            CreateEvilPed()
+        end
+    end
+end)
