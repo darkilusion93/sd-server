@@ -19,6 +19,18 @@ local function safeAmount(v)
 	return v
 end
 
+-- FIX (2026-06-13): saque/transferência DA sociedade só pelo boss. Antes os
+-- handlers de sociedade não verificavam membership/grade → qualquer jogador
+-- drenava o cofre de qualquer sociedade ("society_<job>") para o próprio bolso.
+-- Convenção de boss = grade_name "boss" (igual ao fix C20 do cframework sv_society).
+local function isSocietyBoss(xPlayer, society)
+	if not xPlayer or type(society) ~= "string" then return false end
+	local jobName = society:gsub("^society_", "")
+	local job = xPlayer.job
+	if not job then return false end
+	return job.name == jobName and job.grade_name == "boss"
+end
+
 ESX.RegisterServerCallback("okokBanking:GetPlayerInfo", function(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	MySQL.Async.fetchAll('SELECT * FROM users WHERE identifier = @identifier', {
@@ -326,6 +338,10 @@ AddEventHandler("okokBanking:WithdrawMoneyToSociety", function(amount, society, 
 	if not xPlayer then return end
 	amount = safeAmount(amount); if not amount then return end
 	local _source = source
+	if not isSocietyBoss(xPlayer, society) then
+		TriggerClientEvent('okokNotify:Alert', _source, _L('society_no_money').title, "Sem permissão (só o patrão)", _L('society_no_money').time, _L('society_no_money').type)
+		return
+	end
 	local db
 	local hasChecked = false
 
@@ -480,6 +496,7 @@ AddEventHandler("okokBanking:TransferMoneyToSocietyFromSociety", function(amount
 	local xPlayer = ESX.GetPlayerFromId(source)
 	if not xPlayer then return end
 	amount = safeAmount(amount); if not amount then return end
+	if not isSocietyBoss(xPlayer, society) then return end
 	local xPlayers = ESX.GetPlayers()
 
 	-- teto a partir do saldo REAL da sociedade (server-side), não do cliente
@@ -532,6 +549,7 @@ AddEventHandler("okokBanking:TransferMoneyToPlayerFromSociety", function(amount,
 	local xPlayer = ESX.GetPlayerFromId(source)
 	if not xPlayer then return end
 	amount = safeAmount(amount); if not amount then return end
+	if not isSocietyBoss(xPlayer, society) then return end
 	local xTarget = ESX.GetPlayerFromIdentifier(targetIdentifier)
 	local xPlayers = ESX.GetPlayers()
 

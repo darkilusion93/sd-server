@@ -237,6 +237,24 @@ local function jm_validItem(newItem)
     return itemType, name, count
 end
 
+-- FIX (2026-06-13): controlo de acesso ao armário. O storageId de um motel é
+-- sempre "motel-<uniqueId>" e cada chave guarda keyData.id == storageId — o
+-- cliente já gateia com HasKey(storageId). Aqui replicamos server-side: só
+-- acede quem tem a chave (o dono recebe-a ao comprar, via AddKey). Sem isto,
+-- o fetchMotels envia TODOS os armários a TODOS os clientes → qualquer jogador
+-- sabia o storageId alheio e roubava/dupava itens à vontade.
+local function jm_hasKeyAccess(player, storageId)
+    if type(storageId) ~= "string" or storageId == "" then return false end
+    local rows = MySQL.Sync.fetchAll('SELECT keyData FROM world_keys WHERE owner = @owner', {
+        ['@owner'] = player["identifier"]
+    })
+    for _, r in ipairs(rows or {}) do
+        local ok, kd = pcall(json.decode, r.keyData)
+        if ok and type(kd) == "table" and kd.id == storageId then return true end
+    end
+    return false
+end
+
 ESX.RegisterServerCallback("james_motels:addItemToStorage", function(source, callback, newTable, newItem, storageId, data)
     local player_id = source
     local ids = ExtractIdentifiers(player_id)
@@ -256,6 +274,7 @@ ESX.RegisterServerCallback("james_motels:addItemToStorage", function(source, cal
 	}
 
     if player then
+        if not jm_hasKeyAccess(player, storageId) then return callback(false) end
         local itemType, name, count = jm_validItem(newItem)
         if not itemType then return callback(false) end
         local ok = false
@@ -305,6 +324,7 @@ ESX.RegisterServerCallback("james_motels:takeItemFromStorage", function(source, 
 	}
 
     if player then
+        if not jm_hasKeyAccess(player, storageId) then return callback(false) end
         local itemType, name, count = jm_validItem(newItem)
         if not itemType then return callback(false) end
         -- só dá se o item existir mesmo na storage (server-side)
@@ -477,6 +497,23 @@ ESX.RegisterServerCallback("james_motels:sellMotel", function(source, callback, 
 
     if not player then return callback(false) end
 
+    -- FIX (2026-06-13): o caller TEM de ser dono deste motel. As deleções de
+    -- world_storages/world_furnishings/world_keys eram keyed pelo uniqueId vindo
+    -- do cliente, sem verificar posse → um griefer passava o uniqueId da vítima e
+    -- apagava-lhe armário/mobília/chaves (e recebia o reembolso).
+    local uuid = tostring(type(motelData) == "table" and motelData["uniqueId"] or "")
+    if not uuid:match("^%d+$") then return callback(false) end
+
+    local ownRows = MySQL.Sync.fetchAll('SELECT motelData FROM world_motels WHERE userIdentifier = @id', {
+        ['@id'] = player["identifier"]
+    })
+    local owns = false
+    for _, r in ipairs(ownRows or {}) do
+        local ok, md = pcall(json.decode, r.motelData)
+        if ok and type(md) == "table" and tostring(md.uniqueId) == uuid then owns = true break end
+    end
+    if not owns then return callback(false) end
+
     local removeSqlTasks = {}
 
     table.insert(removeSqlTasks, function(callback)        
@@ -648,7 +685,9 @@ ESX.RegisterServerCallback("james_motels:getStorageItems", function(source, call
         callback({})
         return
     end
-    
+
+    if not jm_hasKeyAccess(player, storageId) then return callback({}) end
+
     local items = {}
     
     if cachedData and cachedData.storages and cachedData.storages[storageId] then

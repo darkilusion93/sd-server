@@ -20,6 +20,23 @@ RegisterServerEvent('ctunning:applyMods', function(price, id, vehprops)
         return
     end
 
+    -- FIX (2026-06-13): a matrícula tem de ser de um veículo real (owned_vehicles).
+    -- Antes, vehprops vinha do cliente e ESX.updateVehicleProps gravava em QUALQUER
+    -- matrícula → permitia injetar props (sabotar/alterar) o veículo guardado de
+    -- terceiros pela placa, ou cobrar por um veículo fantasma.
+    -- TODO: preço por mod server-side (de Config.TunningPrices) + proximidade à oficina.
+    local plate = type(vehprops.plate) == "string" and vehprops.plate or nil
+    if not plate or plate == "" then
+        TriggerClientEvent("ctunning:modSuccess", source, false)
+        return
+    end
+
+    local owned = MySQL.Sync.fetchAll('SELECT 1 FROM owned_vehicles WHERE plate = @plate LIMIT 1', { ['@plate'] = plate })
+    if not owned or owned[1] == nil then
+        TriggerClientEvent("ctunning:modSuccess", source, false)
+        return
+    end
+
         TriggerEvent('esx_addonaccount:getSharedAccount', 'society_'..job.name, function(account)
             if account.money < price then TriggerClientEvent("ctunning:modSuccess", source, false) return end
 
