@@ -60,13 +60,35 @@ RegisterNetEvent("cframework:boostingEngineDelivered", function(boostId)
         return
     end
 
+    -- O caller tem de ser membro ativo desta boost (mata boostId forjado / entrega por terceiros).
+    local isMember = false
+    for _, member in ipairs(missionData.members) do
+        if member.playerId == source and (member.status == "party" or member.status == "owner") then
+            isMember = true
+            break
+        end
+    end
+
+    if not isMember then
+        TriggerClientEvent("cframework:showBoostingNotification", source, T("BOOSTING_NOT_MANAGING_BOOST"))
+        return
+    end
+
+    -- Tem de estar no ponto de entrega (anti entrega remota).
+    if not missionData.deliverLocation or #(GetEntityCoords(GetPlayerPed(source)) - missionData.deliverLocation.xyz) > 10.0 then
+        TriggerClientEvent("cframework:showBoostingNotification", source, T("BOOSTING_NOT_MANAGING_BOOST"))
+        return
+    end
+
     if not inventory.canRemoveItem("car_motor", 1) then
         TriggerClientEvent("cframework:showBoostingNotification", source, T("BOOSTING_NOT_HAVE_ENGINE"))
         return
     end
 
-    if waitingForEngineDeliver[source] then
-        waitingForEngineDeliver[source] = nil
+    -- One-shot por boostId. (Antes verificava waitingForEngineDeliver[source] mas a flag
+    -- é gravada em [boostId] (linha 30) — a entrega nunca completava e o passo nunca fechava.)
+    if waitingForEngineDeliver[boostId] then
+        waitingForEngineDeliver[boostId] = nil
 
         inventory.removeItem("car_motor", 1)
 

@@ -2,20 +2,11 @@ fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
 
+-- Recurso é apenas um pacote de armas/props (Airsoft M4 + meta). Os scripts
+-- 'server.lua'/'rappel_server.lua'/'config.lua' nunca existiram (nem no backup);
+-- referenciá-los só gera erros de load. Removidos.
 client_scripts {
 	'cl_weaponNames.lua'
-}
-
-server_scripts {
-	'server.lua',
-	'rappel_server.lua'
-}
-
-shared_scripts {
-    'config.lua'
-}
-
-dependencies {
 }
 files {
 	'weaponhominglauncher.meta',

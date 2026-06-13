@@ -49,7 +49,6 @@ files {
     "module/renderers/*.js",
     "module/scenes/*.js",
     "module/textures/*.js",
-    "content/*.mp4",
     "script.js"
 }
 

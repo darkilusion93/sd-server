@@ -53,6 +53,32 @@ end)
 RegisterNetEvent("cframework:boostingPlateDelivered", function(boostId)
     local source <const> = source
     local missionData = GetBoostingMissionData(boostId)
+
+    if not missionData then
+        TriggerClientEvent("cframework:showBoostingNotification", source, T("BOOSTING_NOT_MANAGING_BOOST"))
+        return
+    end
+
+    -- O caller tem de ser membro ativo desta boost (mata boostId forjado / entrega por terceiros).
+    local isMember = false
+    for _, member in ipairs(missionData.members) do
+        if member.playerId == source and (member.status == "party" or member.status == "owner") then
+            isMember = true
+            break
+        end
+    end
+
+    if not isMember then
+        TriggerClientEvent("cframework:showBoostingNotification", source, T("BOOSTING_NOT_MANAGING_BOOST"))
+        return
+    end
+
+    -- Tem de estar no ponto de entrega (anti entrega remota).
+    if not missionData.deliverLocation or #(GetEntityCoords(GetPlayerPed(source)) - missionData.deliverLocation.xyz) > 10.0 then
+        TriggerClientEvent("cframework:showBoostingNotification", source, T("BOOSTING_NOT_MANAGING_BOOST"))
+        return
+    end
+
     local inventory <const> = ESX.getInvContainer(source)
     local item <const> = inventory.getItemByMetadata("label", missionData.vehiclePlate)
 
