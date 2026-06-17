@@ -13,6 +13,7 @@ hypnonema.db
 
 # ── Segredos — NUNCA versionar ─────────────────────
 server_secrets.cfg
+server_secrets.NEW.cfg
 .env
 *.key
 

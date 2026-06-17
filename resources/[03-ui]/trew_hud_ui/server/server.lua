@@ -16,12 +16,13 @@ AddEventHandler('trew_hud_ui:getServerInfo', function()
 			job = xPlayer.job.label .. ': ' .. xPlayer.job.grade_label
 		end
             
+		local bankAccount       = xPlayer.getAccount('bank')
 		local blackMoneyAccount = xPlayer.getAccount('black_money')
 		local info = {
 			job = job,
 			money = xPlayer.getMoney(),
-			bankMoney = xPlayer.getAccount('bank').money,
-			blackMoney = xPlayer.getAccount('black_money').money
+			bankMoney = bankAccount and bankAccount.money or 0,
+			blackMoney = blackMoneyAccount and blackMoneyAccount.money or 0
 		}
 
 		TriggerClientEvent('trew_hud_ui:setInfo', source, info)

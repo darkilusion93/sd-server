@@ -2,6 +2,7 @@ fx_version 'bodacious'
 
 games { 'gta5' }
 lua54 'yes'
+dependency 'cframework'   -- garante que o ESX (esx:getSharedObject) existe antes deste recurso carregar
 client_script '@cframework/client/cl_rpc.lua'
 server_script '@cframework/server/sv_rpc.lua'
 

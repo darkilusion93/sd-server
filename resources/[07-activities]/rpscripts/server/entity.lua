@@ -543,16 +543,20 @@ AddEventHandler('entityCreated', function(entity)
     if GetEntityType(entity) ~= 0 then
 		local model = GetEntityModel(entity)
 
+        -- NOTA (correção de falso-positivo): no servidor, NetworkGetEntityOwner de
+        -- entidades AMBIENTE (animais selvagens, peds, props que o jogo cria sozinho)
+        -- é atribuído pelo OneSync ao jogador mais PRÓXIMO — não a quem as criou.
+        -- Banir aqui pelo "dono" bania qualquer jogador a conduzir perto de um animal.
+        -- Solução: apagar a entidade proibida + log (neutraliza spawns de batota),
+        -- SEM ban automático. O ban fica para os detetores fiáveis (sv_serverchecks/comserv).
         if model == -1667301416 then
-            TriggerEvent("el_bwh:ban", ESX.GetPlayerFromId(src), ESX.GetPlayerFromId(src), 'semdestino Anti-Cheat : Ped', nil, false)
-            DiscordLog("Entity" , "Nome da Steam: **"..GetPlayerName(src).."**\nObjeto: **"..'-1667301416'.."**", 15158332, http)
+            DiscordLog("Entity" , "Nome da Steam: **"..GetPlayerName(src).."**\nObjeto: **"..'-1667301416'.."** (apagado, sem ban)", 15158332, http)
             DeleteEntity(entity)
         end
 
         for i, objName in ipairs(BlacklistedThings) do
             if model == GetHashKey(objName) then
-                TriggerEvent("el_bwh:ban", ESX.GetPlayerFromId(src), ESX.GetPlayerFromId(src), 'semdestino Anti-Cheat : Object', nil, false)
-                DiscordLog("Entity" , "Nome da Steam: **"..GetPlayerName(src).."**\nObjeto: **"..objName.."**", 15158332, http)
+                DiscordLog("Entity" , "Nome da Steam: **"..GetPlayerName(src).."**\nObjeto: **"..objName.."** (apagado, sem ban)", 15158332, http)
                 DeleteEntity(entity)
             end
         end

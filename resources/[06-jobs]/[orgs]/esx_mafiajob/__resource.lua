@@ -74,7 +74,8 @@ client_scripts {
 }
 
 dependencies {
-	'cframework',
-	'esx_billing'
+	'cframework'
+	-- 'esx_billing' removido: recurso inexistente nesta base e no backup;
+	-- os TriggerServerEvent('esx_billing:sendBill', ...) ficam no-op (nunca houve handler).
 }
 
