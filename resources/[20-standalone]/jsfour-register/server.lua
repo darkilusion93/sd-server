@@ -4,6 +4,19 @@
 local ESX = nil
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
+-- isolamento do jogador durante a cutscene de chegada (routing bucket dedicado)
+RegisterNetEvent('jsreg:setBucket')
+AddEventHandler('jsreg:setBucket', function(bucketId)
+    local src = source
+    if type(bucketId) ~= 'number' then return end
+    SetPlayerRoutingBucket(src, math.floor(bucketId) == 1 and 1 or 0)
+end)
+
+-- segurança: ao sair, repor o bucket normal (não ficar preso na instância da cutscene)
+AddEventHandler('playerDropped', function()
+    SetPlayerRoutingBucket(source, 0)
+end)
+
 local function cleanName(s)
     if type(s) ~= 'string' then return nil end
     s = s:gsub('^%s+', ''):gsub('%s+$', '')
