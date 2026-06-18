@@ -446,6 +446,14 @@ function AntiSpam(def, source, reject)
 	passAuth = false
 	local checkVpn = true
 
+	-- interruptor de teste/dev: `set cf_whitelist false` no cfg desliga a whitelist Discord
+	-- (default "true" => whitelist ativa em produção). Útil quando o bot token/ip-api
+	-- ainda não estão configurados (evita o "tag whitelist não encontrada" a bloquear todos).
+	if GetConvar('cf_whitelist', 'true') ~= 'true' then
+		def.done()
+		return
+	end
+
     if identifierDiscord then
     	usersRoles = GetRoles(source)
 		for index, valueReq in ipairs(whitelistRoles) do 
