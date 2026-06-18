@@ -617,12 +617,18 @@ function IsRolePresent(user, role)
 end
 
 Citizen.CreateThread(function()
+	-- modo teste/sem Discord: com `cf_whitelist false` não contactamos a API Discord
+	-- (o permission system Discord exige bot token válido; sem ele a Discord devolve 400).
+	if GetConvar('cf_whitelist', 'true') ~= 'true' then
+		print('[cframework] Permission system Discord desativado (cf_whitelist false).')
+		return
+	end
 	local guild = DiscordRequest("GET", "guilds/"..Config2.GuildId, {})
 	if guild.code == 200 then
 		local data = json.decode(guild.data)
 		print("Permission system guild set to: "..data.name.." ("..data.id..")")
 	else
-		print("An error occured, please check your Config2 and ensure everything is correct. Error: "..(guild.data or guild.code)) 
+		print("An error occured, please check your Config2 and ensure everything is correct. Error: "..(guild.data or guild.code))
 	end
 end)
 
